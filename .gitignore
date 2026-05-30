@@ -2,6 +2,7 @@ node_modules/
 dist/
 .env
 .netlify/
+.astro/
 *.tgz
 .DS_Store
 playwright-report/
