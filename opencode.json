@@ -17,5 +17,15 @@
       "url": "https://mcp.neon.tech/mcp",
       "enabled": true
     }
+  },
+  "lsp": {
+    "astro": {
+      "command": ["astro-ls"],
+      "extensions": [".astro"]
+    },
+    "bash": {
+      "command": ["bash-language-server", "start"],
+      "extensions": [".sh"]
+    }
   }
 }
