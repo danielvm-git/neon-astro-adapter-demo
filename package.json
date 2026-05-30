@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "preflight": "astro check && vitest run && astro build && playwright test --pass-with-no-tests"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.0.0",
@@ -22,6 +23,7 @@
     "astro": "^5.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@playwright/test": "^1.52.0",
