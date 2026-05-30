@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getHealthStatus } from "../../health-check";
+import { getHealthStatus } from "../../../health-check";
 
 describe("GET /api/health", () => {
   it("returns 503 status when DB is unavailable", async () => {

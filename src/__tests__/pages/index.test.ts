@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getHealthStatus } from "../health-check";
+import { getHealthStatus } from "../../health-check";
 
 describe("index page health check", () => {
   it("reports auth configured when NEON_AUTH_BASE_URL is set", async () => {
