@@ -9,12 +9,16 @@ Stack: TypeScript / Astro 5+ / Node 22 / Netlify
 ## Commands
 | Action    | Command                       |
 |-----------|-------------------------------|
-| Dev       | `npx astro dev`               |
+| Dev       | `scripts/dev.sh`              |
 | Build     | `npx astro build`             |
 | Preview   | `npx astro preview`           |
 | Test      | `npx vitest run`              |
 | E2E       | `npx playwright test`         |
 | Typecheck | `npx astro check`             |
+| Preflight | `npm run preflight`           |
+| Setup     | `scripts/setup.sh`            |
+| View logs | `tail -f /tmp/astro-dev.log`  |
+| Health    | `curl http://localhost:4321/api/health` |
 
 ## Architecture
 Standard Astro SSR site. Middleware (`src/middleware.ts`) proxies auth via `@danielvm/neon-astro-auth`. Pages: `/` (home), `/login`, `/signup`, `/dashboard` (protected), `/profile` (client auth). Neon DB accessed via `@neondatabase/serverless` on server routes.
