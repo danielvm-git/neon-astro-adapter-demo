@@ -1,9 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getHealthStatus } from "../health-check";
+
+const health = await getHealthStatus(
+  import.meta.env.NEON_AUTH_BASE_URL,
+  import.meta.env.DATABASE_URL,
+);
 ---
 
 <Layout title="Neon Auth + Astro Demo">
   <h1>Neon Auth + Astro</h1>
   <p>A reference demo showing Neon Auth and Neon DB with Astro.</p>
+  <ul>
+    <li>Neon Auth: {health.auth === "configured" ? "online" : "not configured"}</li>
+    <li>Neon DB: {health.db === "connected" ? "online" : "not connected"}</li>
+  </ul>
   <p><a href="/login">Log in</a> or <a href="/signup">sign up</a> to get started.</p>
 </Layout>
