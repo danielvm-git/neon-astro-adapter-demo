@@ -8,6 +8,6 @@ export const logger = pino({
       : undefined,
 });
 
-export function createRequestLogger(requestId: string) {
+export function createRequestLogger(requestId: string): pino.Logger {
   return logger.child({ requestId });
 }
