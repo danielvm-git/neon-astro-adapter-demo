@@ -1,0 +1,41 @@
+{
+  "name": "neon-astro-adapter-demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Reference demo site showcasing Neon Auth + Neon DB with Astro",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^6.0.0",
+    "@danielvm/neon-astro-auth": "^1.0.0",
+    "@neondatabase/serverless": "^0.10.0",
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@playwright/test": "^1.52.0",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^9.1.7",
+    "semantic-release": "^25.0.3",
+    "vitest": "^4.0.7"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielvm-git/neon-astro-adapter-demo.git"
+  },
+  "license": "Apache-2.0"
+}
