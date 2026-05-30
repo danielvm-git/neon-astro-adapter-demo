@@ -3,13 +3,23 @@ import type { APIContext } from "astro";
 import { createRequestLogger } from "./lib/logger";
 import crypto from "node:crypto";
 
-const authMiddleware = createAstroAuth({
-  baseUrl: import.meta.env.NEON_AUTH_BASE_URL,
-  cookies: {
-    secret: import.meta.env.NEON_AUTH_COOKIE_SECRET,
-  },
-  skipRoutes: ["/", "/login", "/signup", "/api/health"],
-}).middleware();
+function getAuthMiddleware(): (
+  ctx: APIContext,
+  next: () => Promise<Response>,
+) => Promise<Response> {
+  const baseUrl = import.meta.env.NEON_AUTH_BASE_URL;
+  const secret = import.meta.env.NEON_AUTH_COOKIE_SECRET;
+  if (!baseUrl || !secret) {
+    return async (_ctx, next) => next();
+  }
+  return createAstroAuth({
+    baseUrl,
+    cookies: { secret },
+    skipRoutes: ["/", "/login", "/signup", "/api/health"],
+  }).middleware();
+}
+
+const authMiddleware = getAuthMiddleware();
 
 export const onRequest = async (
   ctx: APIContext,
