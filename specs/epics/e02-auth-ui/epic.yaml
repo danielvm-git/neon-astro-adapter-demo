@@ -1,0 +1,110 @@
+# Epic: Auth UI (login, signup)
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+id: e02
+title: "Auth UI (login, signup)"
+version: v0.2.0
+
+stories:
+  - id: "0.2.1"
+    title: "Auth client helper"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.1.2"
+    bcps: 1
+    tasks:
+      - id: "0.2.1.1"
+        title: "Write src/auth-client.ts wrapper"
+        steps:
+          - "Create src/auth-client.ts importing createAuthClient from @danielvm/neon-astro-auth"
+          - "Read NEON_AUTH_BASE_URL from import.meta.env"
+          - "Throw with descriptive message if env var is missing (matching db.ts pattern)"
+          - "Export pre-configured authClient via createAuthClient(baseUrl)"
+        verify:
+          - "grep -q "createAuthClient" src/auth-client.ts"
+          - "grep -q "NEON_AUTH_BASE_URL" src/auth-client.ts"
+          - "npx tsx -e \"import('./src/auth-client.js').then(m => console.log(typeof m.authClient))\""
+
+      - id: "0.2.1.2"
+        title: "Write auth client unit tests"
+        steps:
+          - "Create src/auth-client.test.ts with Vitest"
+          - "Test: authClient has signIn, signUp, signOut, getSession as function properties"
+          - "Test: module throws when NEON_AUTH_BASE_URL is missing"
+          - "Mock import.meta.env for missing-env test using vi.stubEnv"
+        verify:
+          - "npx vitest run src/auth-client.test.ts"
+          - "grep -q "signIn" src/auth-client.test.ts"
+          - "grep -q "signUp" src/auth-client.test.ts"
+          - "grep -q "signOut" src/auth-client.test.ts"
+          - "grep -q "getSession" src/auth-client.test.ts"
+    steps:
+      - "Write src/auth-client.ts using createAuthClient from @danielvm/neon-astro-auth"
+      - "Write src/auth-client.test.ts — verify authClient shape + missing env var"
+    verify:
+      - "grep -q 'createAuthClient' src/auth-client.ts"
+      - "grep -q 'signIn' src/auth-client.test.ts"
+      - "npx vitest run src/auth-client.test.ts"
+
+  - id: "0.2.2"
+    title: "Login page"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.1"
+    steps:
+      - "Write src/pages/login.astro with form"
+      - "Form submits to client-side handler using signIn.email()"
+      - "Error message shown on invalid credentials"
+    verify:
+      - "curl -s http://localhost:4321/login | grep -q '<form'"
+      - "Playwright fills form, observes redirect to /dashboard"
+      - "Playwright submits bad creds, sees error text"
+
+  - id: "0.2.3"
+    title: "Signup page"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.1"
+    steps:
+      - "Write src/pages/signup.astro with form"
+      - "Form submits to client-side handler using signUp.email()"
+      - "Error message shown on duplicate email"
+    verify:
+      - "curl -s http://localhost:4321/signup | grep -q '<form'"
+      - "Playwright fills form, observes redirect to /login"
+      - "Playwright submits existing email, sees error text"
+
+  - id: "0.2.4"
+    title: "Middleware wired (skip auth routes)"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write src/middleware.ts using createAstroAuth from @danielvm/neon-astro-auth"
+      - "Login page accessible without auth"
+    verify:
+      - "grep -q 'createAstroAuth' src/middleware.ts"
+      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/login returns 200"
+
+  - id: "0.2.5"
+    title: "Playwright E2E — register & login"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.2.2"
+      - "0.2.3"
+    steps:
+      - "Write e2e/auth.spec.ts covering register + login flow"
+    verify:
+      - "npx playwright test e2e/auth.spec.ts"
+
+risks:
+  - "Requires real Neon Auth project with email/password provider enabled"
+  - "Session token cookie name must match adapter config"

@@ -1,0 +1,112 @@
+# Epic: Scaffold & Neon Connection
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+id: e01
+title: "Scaffold & Neon Connection"
+version: v0.1.0
+
+stories:
+  - id: "0.1.1"
+    title: "Initialize Astro SSR project"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write package.json with Astro 5+, @astrojs/netlify, @danielvm/neon-astro-auth, @neondatabase/serverless, Vitest, Playwright"
+      - "Write astro.config.mjs with adapter: netlify() and output: 'server'"
+      - "Write tsconfig.json with strict mode, ESM, Astro base"
+      - "Install dependencies"
+      - "Write src/pages/index.astro — minimal \"Hello\" page"
+    verify:
+      - "node -e \"require('./package.json').dependencies['astro']\""
+      - "npx astro build && test -f dist/_astro/index.html"
+      - "npx astro check --no-emit || true"
+
+  - id: "0.1.2"
+    title: "Configure neonAuth() integration"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Import neonAuth from @danielvm/neon-astro-auth in astro.config.mjs"
+      - "Add neonAuth() to integrations array (or manual injectRoute)"
+    verify:
+      - "grep -q 'injectRoute\\|neonAuth' astro.config.mjs"
+      - "npx astro build"
+
+  - id: "0.1.3"
+    title: "Environment variable wiring"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write .env.example with NEON_AUTH_BASE_URL, NEON_AUTH_COOKIE_SECRET, DATABASE_URL"
+      - "Write src/env.d.ts for Astro env types"
+      - "Add .env to .gitignore"
+      - "Build fails gracefully when env vars are missing"
+    verify:
+      - "grep -c '=' .env.example | grep -q 3"
+      - "grep -q 'NEON_AUTH_BASE_URL' src/env.d.ts"
+      - "grep -q '.env' .gitignore"
+
+  - id: "0.1.4"
+    title: "Neon DB connection helper"
+    type: feat
+    context: domain
+    status: done
+    steps:
+      - "Write src/db.ts exporting a sql tagged template helper"
+      - "Vitest unit test: sql helper returns a function"
+      - "Build with DB import works"
+    verify:
+      - "grep -q 'export.*sql' src/db.ts"
+      - "npx vitest run src/db.test.ts"
+      - "npx astro build"
+
+  - id: "0.1.5"
+    title: "Home page health check"
+    type: feat
+    context: domain
+    status: done
+    steps:
+      - "Update src/pages/index.astro to SSR-ping DB (SELECT 1)"
+      - "Show adapter status (env var presence check)"
+      - "Vitest: page renders without error"
+    verify:
+      - "curl -s http://localhost:4321/api/health | grep -q 'online'"
+      - "npx vitest run src/pages/index.test.ts"
+
+  - id: "0.1.6"
+    title: "CI/CD with semantic-release"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write .github/workflows/release.yml — checkout, install, build, test, semantic-release"
+      - "Write .releaserc — commit-analyzer, release-notes-generator, git (tag-only)"
+      - "Write commitlint.config.js extending @commitlint/config-conventional"
+      - "Write .husky/commit-msg hook"
+      - "Write netlify.toml"
+    verify:
+      - "test -f .github/workflows/release.yml"
+      - "test -f .releaserc && grep -q 'git' .releaserc"
+      - "test -f commitlint.config.js"
+      - "test -f netlify.toml && grep -q 'command' netlify.toml"
+
+  - id: "0.1.7"
+    title: "Playwright E2E scaffold"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write playwright.config.ts"
+      - "Write e2e/home.spec.ts — page loads, status 200"
+      - "CI workflow runs Playwright"
+    verify:
+      - "test -f playwright.config.ts"
+      - "npx playwright test e2e/home.spec.ts"
+
+risks:
+  - "Neon project must be pre-created with Auth enabled and DVD Rental DB loaded"
+  - "@danielvm/neon-astro-auth must be published to npm (v1.0.1+)"
+  - "Netlify adapter config must match deployment target"

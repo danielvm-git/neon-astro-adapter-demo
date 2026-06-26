@@ -1,0 +1,24 @@
+# Vision — Neon Auth Astro Demo
+# Migrated from custom specs/SCOPE.md on 2026-06-26
+
+north_star: |
+  A reference Astro 5+ demo site showing developers exactly how to
+  integrate Neon Auth and Neon DB into their Astro projects. The demo
+  is a living, deployed site on Netlify that follows the same steps a
+  real developer would take. Every page demonstrates a different
+  integration pattern: SSR middleware protection, server-side DB queries,
+  client-side session management, API route handlers, and full auth flows.
+
+success_criteria:
+  - Live demo accessible at a public Netlify URL
+  - User can register → login → browse films → view profile → sign out
+  - Unauthenticated requests to /dashboard redirect to /login
+  - GET /api/films returns JSON only when authenticated
+  - All Playwright E2E tests pass in CI
+  - README explains adoption steps for @danielvm/neon-astro-auth
+  - Version tag v1.0.0 created when MVP is complete
+
+target_users:
+  - Astro developers evaluating Neon Auth integration
+  - Developers looking for a reference implementation
+  - Users of @danielvm/neon-astro-auth adapter

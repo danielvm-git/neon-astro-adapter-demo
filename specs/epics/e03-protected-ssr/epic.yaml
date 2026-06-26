@@ -1,0 +1,89 @@
+# Epic: Protected SSR + Neon DB Film Catalog
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+id: e03
+title: "Protected SSR + Neon DB Film Catalog"
+version: v0.3.0
+
+stories:
+  - id: "0.3.1"
+    title: "Dashboard page (protected)"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.4"
+      - "0.1.4"
+    steps:
+      - "Write src/pages/dashboard.astro — SSR, queries DB for film list"
+      - "Authenticated request shows film list"
+      - "Vitest: dashboard fetches film data"
+    verify:
+      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dashboard returns 302 (redirect to login)"
+      - "Playwright: login, then visit /dashboard, sees film titles"
+      - "npx vitest run src/pages/dashboard.test.ts"
+
+  - id: "0.3.2"
+    title: "Film detail page"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.3.1"
+      - "0.1.4"
+    steps:
+      - "Write src/pages/films/[id].astro — queries single film with actors"
+      - "404 for invalid film ID"
+      - "Vitest: film data shape correct"
+    verify:
+      - "curl -s http://localhost:4321/films/1 | grep -q 'actor'"
+      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/films/99999 returns 404"
+      - "npx vitest run src/pages/films/"
+
+  - id: "0.3.3"
+    title: "Protected API endpoint"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.3.1"
+      - "0.1.4"
+    steps:
+      - "Write src/pages/api/films.ts — queries DB, returns JSON"
+      - "Authenticated request returns JSON"
+      - "Vitest: API returns correct shape"
+    verify:
+      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/api/films returns 302 (redirect if unauthenticated)"
+      - "curl -s http://localhost:4321/api/films | jq '.[0].title' returns film title"
+      - "npx vitest run src/pages/api/films.test.ts"
+
+  - id: "0.3.4"
+    title: "Session validation on server"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Middleware validates session token with upstream Neon Auth before allowing access"
+      - "Invalid/expired token → redirect to /login"
+      - "Valid token → proceeds to page"
+    verify:
+      - "Vitest mock shows upstream call"
+      - "Playwright: login, visit /dashboard, status 200"
+
+  - id: "0.3.5"
+    title: "Playwright E2E — protected routes"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.3.1"
+      - "0.3.2"
+    steps:
+      - "Write e2e/protected.spec.ts — unauthenticated redirect, authenticated access, film detail"
+    verify:
+      - "npx playwright test e2e/protected.spec.ts"
+
+risks:
+  - "Requires real Neon Auth project with valid credentials"
+  - "DVD Rental DB must be pre-loaded with film/actor/film_actor data"
+  - "Netlify function timeout on DB queries — use Neon serverless HTTP driver"

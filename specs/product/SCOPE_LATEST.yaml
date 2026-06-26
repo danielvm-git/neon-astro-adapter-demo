@@ -1,0 +1,50 @@
+# Scope — Neon Auth Astro Demo
+# Migrated from custom specs/SCOPE.md on 2026-06-26
+# Source IDs (preserved for traceability): REQ-EP01 through REQ-EP06
+
+in_scope:
+  # Epics
+  - "Epic 0.1: Astro scaffold + Neon connection"  # REQ-EP01
+  - "Epic 0.2: Auth UI (login, signup)"             # REQ-EP02
+  - "Epic 0.3: Protected SSR + Neon DB film catalog" # REQ-EP03
+  - "Epic 0.4: Client auth + full navigation flows"  # REQ-EP04
+  - "Epic 0.5: Netlify deploy + README guide"        # REQ-EP05
+  - "Epic 1.0: MVP release"                          # REQ-EP06
+  # Pages
+  - "/ — Home + health check + film catalog"
+  - "/login — Email/password sign-in form"
+  - "/signup — Registration form"
+  - "/dashboard — Protected page + DB query"
+  - "/films/[id] — Film detail with actor joins"
+  - "/profile — Client-side getSession()"
+  - "/api/films — Protected API endpoint + DB query"
+  # Tech stack
+  - "Astro 5+ SSR with @astrojs/netlify"
+  - "@danielvm/neon-astro-auth for auth"
+  - "@neondatabase/serverless for DB queries"
+  - "Neon PostgreSQL with DVD Rental sample data"
+  - "Vitest for unit tests"
+  - "Playwright for E2E tests"
+  - "Semantic-release for version bumps"
+
+out_of_scope:
+  - "Multi-tenancy or organization-level auth"
+  - "Social login (GitHub, Google, etc.)"
+  - "Admin dashboard or user management"
+  - "Billing, payments, or subscription tiers"
+  - "Non-Astro frameworks (Next.js, Nuxt, etc.)"
+  - "CSS framework (no Tailwind, Bootstrap)"
+  - "Mobile app or PWA features"
+  - "Real-time features (WebSockets, SSE)"
+  - "All 15 DVD Rental tables — only film, actor, film_actor"
+  - "Database migrations or schema evolution"
+  - "Production monitoring or observability"
+
+constraints:
+  - "Astro 5+ only (no v4 backwards compat)"
+  - "ESM-only (no CommonJS)"
+  - "Deployed to Netlify (not Vercel, Cloudflare)"
+  - "@danielvm/neon-astro-auth from npm registry"
+  - "Node 22+ runtime"
+  - "All env vars via Netlify dashboard, NEVER committed"
+  - "Conventional Commits enforced by commitlint + Husky"

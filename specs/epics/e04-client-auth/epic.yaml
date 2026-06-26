@@ -1,0 +1,105 @@
+# Epic: Client Auth + Full Navigation Flows
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+id: e04
+title: "Client Auth + Full Navigation Flows"
+version: v0.4.0
+
+stories:
+  - id: "0.4.1"
+    title: "Profile page (client auth)"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.1"
+    steps:
+      - "Write src/pages/profile.astro with client island"
+      - "Client island calls getSession() and renders email"
+      - "Unauthenticated shows 'Not logged in'"
+    verify:
+      - "curl -s http://localhost:4321/profile | grep -q 'script'"
+      - "Playwright: login, visit /profile, sees email"
+      - "Playwright: visit /profile without login, sees not-logged-in state"
+
+  - id: "0.4.2"
+    title: "Sign-out flow"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.1"
+      - "0.4.1"
+    steps:
+      - "Add sign-out button (calls signOut())"
+      - "After sign-out, /dashboard redirects to /login"
+      - "Vitest: signOut clears client state"
+    verify:
+      - "Playwright: click sign-out, redirected to /"
+      - "Playwright: sign out, visit /dashboard, sees login redirect"
+      - "npx vitest run src/auth-client.test.ts"
+
+  - id: "0.4.3"
+    title: "Navigation with auth state"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.4.1"
+      - "0.2.1"
+    steps:
+      - "Write src/layouts/Layout.astro with conditional nav"
+      - "Logged-out state shows 'Login' link"
+      - "Logged-in state shows 'Dashboard' and 'Sign out'"
+    verify:
+      - "grep -q 'getSession' src/layouts/Layout.astro"
+      - "Playwright: visit / without login, see 'Login' link"
+      - "Playwright: login, visit /, see dashboard link"
+
+  - id: "0.4.4"
+    title: "Error handling pages"
+    type: feat
+    context: domain
+    status: pending
+    steps:
+      - "Auth upstream unreachable → show 'Service temporarily unavailable'"
+      - "DB connection failure → show 'Database error' page"
+      - "Invalid film ID → 404 page"
+    verify:
+      - "Vitest simulates fetch failure"
+      - "Vitest simulates DB timeout"
+      - "Playwright: visit /films/99999, sees custom 404"
+
+  - id: "0.4.5"
+    title: "POST API endpoint"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.3.3"
+    steps:
+      - "Write src/pages/api/reviews.ts — POST handler behind auth"
+      - "Authenticated POST succeeds"
+    verify:
+      - "curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:4321/api/reviews returns 302"
+      - "Playwright sends POST with session cookie, status 200"
+
+  - id: "0.4.6"
+    title: "Playwright E2E — full user journey"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.4.1"
+      - "0.4.2"
+      - "0.4.3"
+      - "0.4.4"
+      - "0.4.5"
+    steps:
+      - "Write e2e/full-flow.spec.ts — register → login → browse dashboard → view film → profile → POST review → sign out → login redirect"
+    verify:
+      - "npx playwright test e2e/full-flow.spec.ts"
+
+risks:
+  - "Reviews table schema must be defined before 0.4.5"
+  - "Graceful degradation policy needs resolution (no-op vs hard error)"
