@@ -6,21 +6,25 @@ describe("authClient", () => {
     vi.resetModules();
   });
 
-  it("exports authClient with signIn, signUp, signOut, getSession", async () => {
+  it("importing auth-client module does not throw when env unset", async () => {
+    await expect(import("../auth-client")).resolves.toBeDefined();
+  });
+
+  it("getAuthClient throws when NEON_AUTH_BASE_URL is not set", async () => {
+    const mod = await import("../auth-client");
+
+    expect(() => mod.getAuthClient()).toThrow("NEON_AUTH_BASE_URL");
+  });
+
+  it("getAuthClient returns client with signIn, signUp, signOut, getSession when env set", async () => {
     vi.stubEnv("NEON_AUTH_BASE_URL", "https://auth.example.com");
 
     const mod = await import("../auth-client");
+    const client = mod.getAuthClient();
 
-    expect(typeof mod.authClient).toBe("function");
-    expect(typeof mod.authClient.signIn).toBe("function");
-    expect(typeof mod.authClient.signUp).toBe("function");
-    expect(typeof mod.authClient.signOut).toBe("function");
-    expect(typeof mod.authClient.getSession).toBe("function");
-  });
-
-  it("throws when NEON_AUTH_BASE_URL is not set", async () => {
-    await expect(async () => {
-      await import("../auth-client");
-    }).rejects.toThrow("NEON_AUTH_BASE_URL");
+    const methods = ["signIn", "signUp", "signOut", "getSession"] as const;
+    for (const method of methods) {
+      expect(typeof Reflect.get(client, method)).toBe("function");
+    }
   });
 });
