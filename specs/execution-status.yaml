@@ -1,0 +1,59 @@
+# Execution Status — Neon Auth Astro Demo
+
+epics:
+  e01:
+    title: "Scaffold & Neon Connection"
+    version: v0.1.0
+    status: released
+    stories:
+      "0.1.1": done
+      "0.1.2": done
+      "0.1.3": done
+      "0.1.4": done
+      "0.1.5": done
+      "0.1.6": done
+      "0.1.7": done
+
+  e02:
+    title: "Auth UI (login, signup)"
+    version: v0.2.0
+    status: in_progress
+    stories:
+      "0.2.1": done
+      "0.2.2": pending
+      "0.2.3": pending
+      "0.2.4": done
+      "0.2.5": pending
+
+  e03:
+    title: "Protected SSR + Neon DB Film Catalog"
+    version: v0.3.0
+    status: started
+    stories:
+      "0.3.1": pending
+      "0.3.2": pending
+      "0.3.3": pending
+      "0.3.4": done
+      "0.3.5": pending
+
+  e04:
+    title: "Client Auth + Full Navigation Flows"
+    version: v0.4.0
+    status: planned
+    stories:
+      "0.4.1": pending
+      "0.4.2": pending
+      "0.4.3": pending
+      "0.4.4": pending
+      "0.4.5": pending
+      "0.4.6": pending
+
+  e05:
+    title: "Deploy & Document"
+    version: v0.5.0
+    status: planned
+    stories:
+      "0.5.1": pending
+      "0.5.2": pending
+      "0.5.3": pending
+      "0.5.4": pending
