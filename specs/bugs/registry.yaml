@@ -15,3 +15,18 @@ bugs:
       - src/middleware.ts
     commit_message: "fix(middleware): guard against missing Neon Auth env vars"
     file: specs/bugs/BUG-2026-05-30T211620.md
+
+  - id: BUG-001
+    date: 2026-06-26
+    severity: medium
+    priority: high
+    scope: auth-client
+    summary: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
+    status: fixed
+    approach: "lazy getAuthClient() function deferring env guard to call time"
+    risk_level: low
+    files_changed:
+      - src/auth-client.ts
+      - src/__tests__/auth-client.test.ts
+    commit_message: "fix(auth-client): defer env guard to call time via lazy getAuthClient()"
+    file: specs/bugs/BUG-001-auth-client-module-throw.md
