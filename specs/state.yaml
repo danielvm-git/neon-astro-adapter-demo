@@ -58,7 +58,7 @@ release_result: merged (056fb70)
 ## Pending Releases
 
 - [x] Epic 0.2: 5/5 stories done (login, signup, middleware, E2E)
-- [ ] Epic 0.3: 4 stories pending
+- [ ] Epic 0.3: 3 stories pending (0.3.2, 0.3.3, 0.3.5)
 - [ ] Epic 0.4: 6 stories pending
 - [ ] Epic 0.5: 4 stories pending
 - [ ] Resolve open decisions: graceful degradation policy, reviews table schema
