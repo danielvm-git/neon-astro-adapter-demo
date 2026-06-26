@@ -55,14 +55,109 @@ stories:
     status: pending
     depends_on:
       - "0.2.1"
+    bcps: 2
+    tasks:
+      - id: "0.2.2.1"
+        title: "Update getAuthClient() to accept optional baseUrlOverride"
+        steps:
+          - "Modify src/auth-client.ts: add optional baseUrlOverride param to getAuthClient()"
+          - "Use override if provided, else fall back to import.meta.env.NEON_AUTH_BASE_URL"
+          - "Result: browser scripts can pass server-rendered URL without depending on client-side import.meta.env"
+        verify:
+          - "grep -q 'baseUrlOverride' src/auth-client.ts"
+          - "npx vitest run src/__tests__/auth-client.test.ts"
+      - id: "0.2.2.2"
+        title: "Create login.astro page with form and client-side auth handler"
+        steps:
+          - "Create src/pages/login.astro using Layout"
+          - "Frontmatter reads NEON_AUTH_BASE_URL from env, passes via define:vars to client script"
+          - "Client script: on form submit, calls getAuthClient(NEON_AUTH_BASE_URL).signIn.email({ email, password })"
+          - "On success: window.location.href = '/dashboard'"
+          - "On error: show error message in #error element"
+          - "Style form with basic CSS matching existing theme"
+        verify:
+          - "test -f src/pages/login.astro"
+          - "grep -q 'signIn.email' src/pages/login.astro"
+          - "grep -q 'define:vars' src/pages/login.astro"
+          - "grep -q '<form' src/pages/login.astro"
+      - id: "0.2.2.3"
+        title: "Write login page unit tests"
+        steps:
+          - "Update src/__tests__/pages/index.test.ts or create login test"
+          - "Test: login page renders form with email/password fields"
+          - "Test: form submission calls signIn.email with correct args"
+          - "Test: error display on failure"
+        verify:
+          - "npx vitest run src/__tests__/pages/"
     steps:
-      - "Write src/pages/login.astro with form"
-      - "Form submits to client-side handler using signIn.email()"
-      - "Error message shown on invalid credentials"
+      - "Update getAuthClient() to accept optional baseUrlOverride param"
+      - "Create src/pages/login.astro with form + client-side handler"
+      - "Write login page unit tests"
     verify:
-      - "curl -s http://localhost:4321/login | grep -q '<form'"
-      - "Playwright fills form, observes redirect to /dashboard"
-      - "Playwright submits bad creds, sees error text"
+      - "test -f src/pages/login.astro"
+      - "grep -q 'signIn.email' src/pages/login.astro"
+      - "npx vitest run"
+
+  - id: "0.2.3"
+    title: "Signup page"
+    type: feat
+    context: domain
+    status: pending
+    depends_on:
+      - "0.2.1"
+    bcps: 2
+    tasks:
+      - id: "0.2.3.1"
+        title: "Create signup.astro page with form and client-side handler"
+        steps:
+          - "Create src/pages/signup.astro using Layout"
+          - "Frontmatter reads NEON_AUTH_BASE_URL from env, passes via define:vars"
+          - "Form fields: name, email, password"
+          - "Client script: on form submit, calls getAuthClient(NEON_AUTH_BASE_URL).signUp.email({ name, email, password })"
+          - "On success: window.location.href = '/login'"
+          - "On error (e.g. duplicate email): show error message"
+          - "Style form with basic CSS matching existing theme"
+        verify:
+          - "test -f src/pages/signup.astro"
+          - "grep -q 'signUp.email' src/pages/signup.astro"
+          - "grep -q '<form' src/pages/signup.astro"
+          - "grep -q 'name' src/pages/signup.astro"
+    steps:
+      - "Create src/pages/signup.astro with name/email/password form"
+      - "Client-side handler using signUp.email()"
+      - "Write signup page unit tests"
+    verify:
+      - "test -f src/pages/signup.astro"
+      - "grep -q 'signUp.email' src/pages/signup.astro"
+      - "npx vitest run"
+
+  - id: "0.2.5"
+    title: "Playwright E2E — register & login"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.2.2"
+      - "0.2.3"
+    bcps: 2
+    tasks:
+      - id: "0.2.5.1"
+        title: "Write e2e/auth.spec.ts with register and login flows"
+        steps:
+          - "Create e2e/auth.spec.ts"
+          - "Test: visit /signup, fill form with unique email, submit, verify redirect to /login"
+          - "Test: visit /login, fill form with registered credentials, submit, verify redirect to /dashboard"
+          - "Test: visit /login, submit bad credentials, verify error message shown"
+          - "Use unique test email per run (Date.now() or crypto.randomUUID())"
+        verify:
+          - "test -f e2e/auth.spec.ts"
+          - "grep -q 'signup' e2e/auth.spec.ts"
+          - "grep -q 'login' e2e/auth.spec.ts"
+          - "grep -q 'page.goto' e2e/auth.spec.ts"
+    steps:
+      - "Write e2e/auth.spec.ts"
+    verify:
+      - "test -f e2e/auth.spec.ts"
 
   - id: "0.2.3"
     title: "Signup page"
