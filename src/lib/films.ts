@@ -8,11 +8,11 @@ export interface Film {
 }
 
 export async function getFilms(limit = 20): Promise<Film[]> {
-  const rows = await sql<Film[]>`
+  const rows = (await sql`
     SELECT film_id, title, release_year, rating
     FROM film
     ORDER BY title
     LIMIT ${limit}
-  `;
+  `) as Film[];
   return rows;
 }
