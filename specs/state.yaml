@@ -1,16 +1,9 @@
 # Session State: Neon Auth Astro Demo
 
-active_flow: build_epic
-active_epic: e02
+## Git Metadata
 
-epic_cycle:
-  step: 2
-  fast_mode: true
-  story_bcps: 1
-  audit_result: null
-  current_story: "0.2.1"
-  active_story_title: "Auth client helper"
-  completed_steps: ["1-survey-plan"]
+- **Branch**: main
+- **Hash**: ca3323f
 
 ## Current Milestone
 
@@ -25,7 +18,7 @@ Next: build epic e02 (Auth UI) with --fast mode.
 ## Completed Releases
 
 - v0.1.0 — Epic 0.1 (Scaffold & Neon Connection): 7/7 stories done
-- Epic 0.2: 1/5 stories done (middleware wired)
+- Epic 0.2: 2/5 stories done (middleware wired, auth client helper)
 - Epic 0.3: 1/5 stories done (session validation)
 
 ## Handoff
@@ -44,9 +37,17 @@ required_reading:
   - specs/archive/MIGRATE-SKILL-FEATURE-REQUEST.md
 next_skill: survey-context
 
+## Current Flow
+
+active_flow: idle
+last_epic: e02
+last_story: "0.2.1"
+last_story_title: "Auth client helper"
+release_result: merged (ca3323f)
+
 ## Pending Releases
 
-- [ ] Epic 0.2: Auth UI — build in progress
+- [ ] Epic 0.2: 3 stories pending (login, signup, E2E)
 - [ ] Epic 0.3: 4 stories pending
 - [ ] Epic 0.4: 6 stories pending
 - [ ] Epic 0.5: 4 stories pending
