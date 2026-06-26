@@ -20,10 +20,10 @@ epics:
     status: in_progress
     stories:
       "0.2.1": done
-      "0.2.2": pending
-      "0.2.3": pending
+      "0.2.2": done
+      "0.2.3": done
       "0.2.4": done
-      "0.2.5": pending
+      "0.2.5": done
 
   e03:
     title: "Protected SSR + Neon DB Film Catalog"
