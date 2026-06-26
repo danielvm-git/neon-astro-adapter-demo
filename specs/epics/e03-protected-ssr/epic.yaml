@@ -10,18 +10,61 @@ stories:
     title: "Dashboard page (protected)"
     type: feat
     context: domain
+    bcps: 3
     status: pending
     depends_on:
       - "0.2.4"
       - "0.1.4"
-    steps:
-      - "Write src/pages/dashboard.astro — SSR, queries DB for film list"
-      - "Authenticated request shows film list"
-      - "Vitest: dashboard fetches film data"
+    tasks:
+      - id: "0.3.1.1"
+        title: "Update middleware skipRoutes to exclude /dashboard"
+        description: >
+          The middleware currently does NOT list /dashboard in skipRoutes,
+          so it's already protected. Verify this by reading middleware.ts:
+          skipRoutes does not contain /dashboard → auth check applies →
+          unauthenticated requests redirect to /login. No code change needed.
+        files: []
+        verify: "grep 'skipRoutes' src/middleware.ts | grep -v dashboard"
+
+      - id: "0.3.1.2"
+        title: "Write dashboard.astro SSR page"
+        description: >
+          Create src/pages/dashboard.astro — Astro SSR page that:
+          1. Queries DVD Rental DB for top 20 films (film_id, title, release_year, rating)
+          2. Renders them in a simple table/list
+          3. Shows a welcome heading and a logout link
+          Uses the sql helper from src/db.ts. Protected by middleware automatically.
+          Follows existing layout pattern (import Layout from ../layouts/Layout.astro).
+        files:
+          - "src/pages/dashboard.astro"
+        verify: "test -f src/pages/dashboard.astro"
+
+      - id: "0.3.1.3"
+        title: "Write dashboard page tests"
+        description: >
+          Create src/__tests__/pages/dashboard.test.ts — Vitest tests for the
+          dashboard page. Tests should:
+          1. Verify the SQL query returns expected film shape (film_id, title)
+          2. Mock the DB call and verify rendering logic
+          Follows existing test pattern from src/__tests__/pages/index.test.ts.
+        files:
+          - "src/__tests__/pages/dashboard.test.ts"
+        verify: "npx vitest run src/__tests__/pages/dashboard.test.ts"
+
+      - id: "0.3.1.4"
+        title: "Playwright E2E — dashboard access"
+        description: >
+          Add a test to e2e/ that covers:
+          1. Unauthenticated visit to /dashboard → redirect to /login
+          2. Login with valid credentials, visit /dashboard → sees film titles
+          (This may be done in story 0.3.5 which is the dedicated E2E story)
+        files:
+          - "e2e/dashboard.spec.ts"
+        verify: "npx playwright test e2e/dashboard.spec.ts"
     verify:
       - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dashboard returns 302 (redirect to login)"
       - "Playwright: login, then visit /dashboard, sees film titles"
-      - "npx vitest run src/pages/dashboard.test.ts"
+      - "npx vitest run src/__tests__/pages/dashboard.test.ts"
 
   - id: "0.3.2"
     title: "Film detail page"
