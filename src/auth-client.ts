@@ -1,5 +1,4 @@
-import { createAuthClient } from "@danielvm/neon-astro-auth";
-import type { VanillaBetterAuthClient } from "@neondatabase/auth/types";
+import { createAuthClient } from "@neondatabase/auth";
 
 const baseUrl = import.meta.env.NEON_AUTH_BASE_URL;
 
@@ -9,6 +8,4 @@ if (!baseUrl) {
   );
 }
 
-export const authClient = createAuthClient(
-  baseUrl,
-) as unknown as VanillaBetterAuthClient;
+export const authClient = createAuthClient(baseUrl);
