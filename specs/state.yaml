@@ -33,11 +33,21 @@ next_skill: survey-context
 
 ## Current Flow
 
-active_flow: idle
+active_flow: build_epic
+easy_mode: true
+
+epic_cycle:
+  current_step: 2
+  story_bcps: 2
+  fast_mode: true
+  audit_result: null
+  story_bcps: null
+
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
+active_epic: e02
 last_epic: e02
 last_story: "0.2.1"
 last_story_title: "Auth client helper"
