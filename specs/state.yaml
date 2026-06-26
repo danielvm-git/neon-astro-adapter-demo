@@ -1,0 +1,53 @@
+# Session State: Neon Auth Astro Demo
+
+active_flow: build_epic
+active_epic: e02
+
+epic_cycle:
+  step: 2
+  fast_mode: true
+  story_bcps: 1
+  audit_result: null
+  current_story: "0.2.1"
+  active_story_title: "Auth client helper"
+  completed_steps: ["1-survey-plan"]
+
+## Current Milestone
+
+Migrated from custom (pre-bigpowers) format on 2026-06-26.
+Next: build epic e02 (Auth UI) with --fast mode.
+
+## Git Metadata
+
+- **Branch**: main
+- **Hash**: 2b6b094 (fix(middleware): guard against missing Neon Auth env vars)
+
+## Completed Releases
+
+- v0.1.0 — Epic 0.1 (Scaffold & Neon Connection): 7/7 stories done
+- Epic 0.2: 1/5 stories done (middleware wired)
+- Epic 0.3: 1/5 stories done (session validation)
+
+## Handoff
+
+last_step_completed: "migrate-spec from custom format to bigpowers YAML layout"
+open_decisions:
+  - "Graceful degradation policy — no-op middleware vs hard error for missing auth vars"
+  - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
+  - "Auth client URL injection mechanism — how does the browser get NEON_AUTH_BASE_URL?"
+required_reading:
+  - specs/product/VISION_LATEST.yaml
+  - specs/product/SCOPE_LATEST.yaml
+  - specs/tech-architecture/TECH_STACK_LATEST.md
+  - specs/release-plan.yaml
+  - specs/bugs/registry.yaml
+  - specs/archive/MIGRATE-SKILL-FEATURE-REQUEST.md
+next_skill: survey-context
+
+## Pending Releases
+
+- [ ] Epic 0.2: Auth UI — build in progress
+- [ ] Epic 0.3: 4 stories pending
+- [ ] Epic 0.4: 6 stories pending
+- [ ] Epic 0.5: 4 stories pending
+- [ ] Resolve open decisions: graceful degradation policy, reviews table schema

@@ -1,0 +1,71 @@
+# Epic: Deploy & Document
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+id: e05
+title: "Deploy & Document"
+version: v0.5.0
+
+stories:
+  - id: "0.5.1"
+    title: "Netlify deployment configuration"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.4.x"
+    steps:
+      - "Write production-ready netlify.toml (build command, functions dir, redirects)"
+      - "Deploy to Netlify"
+      - "Env vars configured on Netlify dashboard"
+    verify:
+      - "netlify build succeeds"
+      - "curl -s https://[site].netlify.app/ returns 200"
+      - "Home page shows 'connected' status"
+
+  - id: "0.5.2"
+    title: "Live URL smoke test"
+    type: feat
+    context: infra
+    status: pending
+    depends_on:
+      - "0.5.1"
+    steps:
+      - "Write playwright.config.ts with live URL project"
+      - "Run E2E against live URL"
+    verify:
+      - "grep -q 'netlify.app\\|baseURL' playwright.config.ts"
+      - "npx playwright test --project=live passes"
+
+  - id: "0.5.3"
+    title: "README — developer adoption guide"
+    type: docs
+    context: infra
+    status: pending
+    depends_on:
+      - "0.5.1"
+    steps:
+      - "Write README.md with all sections: logo, description, demo link, features, prerequisites, getting started, project structure, deployment, built with, license"
+      - "Check all links are valid"
+    verify:
+      - "wc -l README.md > 30"
+      - "All links return 200"
+
+  - id: "0.5.4"
+    title: "Final README links"
+    type: docs
+    context: infra
+    status: pending
+    depends_on:
+      - "0.5.3"
+    steps:
+      - "Add 'Built with' section linking @danielvm/neon-astro-auth GitHub repo"
+      - "Add live demo URL badge"
+      - "Link to this demo's own GitHub repo"
+    verify:
+      - "grep -q 'neon-astro-auth' README.md"
+      - "grep -q 'netlify' README.md"
+      - "grep -q 'neon-astro-adapter-demo' README.md"
+
+risks:
+  - "netlify-cli not in devDependencies — setup instructions needed"
+  - "Playwright + Astro SSR timing issues — use waitForURL / waitForSelector patterns"

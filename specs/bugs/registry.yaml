@@ -1,0 +1,17 @@
+# Bug Registry — Neon Auth Astro Demo
+# Migrated from custom specs/bugs/BUG-LOG.md on 2026-06-26
+
+bugs:
+  - id: BUG-2026-05-30T211620
+    date: 2026-05-30
+    severity: critical
+    priority: high
+    scope: middleware
+    summary: "SSR function crashes when Neon Auth env vars unset, causing HTTP 500 on all routes"
+    status: fixed
+    approach: "guard function checking env vars before auth module init"
+    risk_level: low
+    files_changed:
+      - src/middleware.ts
+    commit_message: "fix(middleware): guard against missing Neon Auth env vars"
+    file: specs/bugs/BUG-2026-05-30T211620.md

@@ -1,0 +1,181 @@
+# Glossary — Neon Auth Astro Demo
+# Migrated from custom specs/UBIQUITOUS_LANGUAGE.md on 2026-06-26
+
+terms:
+  # ── Core Concepts ──
+  - term: Adapter
+    definition: >
+      The @danielvm/neon-astro-auth npm package. Bridges Astro's runtime
+      to Neon Auth's Better Auth server. NOT a database adapter — it adapts auth.
+    domain: Core Concepts
+  - term: Neon Auth
+    definition: >
+      Neon's managed authentication service built on Better Auth.
+      Provides the auth server that both the adapter and client talk to.
+    domain: Core Concepts
+  - term: Better Auth
+    definition: >
+      The open-source authentication framework that Neon Auth is built on.
+      The adapter wraps Better Auth's server and client SDKs.
+    domain: Core Concepts
+  - term: Neon DB
+    definition: >
+      Neon's serverless PostgreSQL. The demo queries it for film data and writes reviews.
+    domain: Core Concepts
+  - term: Neon platform
+    definition: >
+      The umbrella for Neon Auth + Neon DB + Neon console.
+      The demo uses both Neon services.
+    domain: Core Concepts
+
+  # ── Adapter API ──
+  - term: createAstroAuth
+    definition: >
+      Server-side factory from @danielvm/neon-astro-auth/server.
+      Returns { middleware(), handler(), auth }. Used in src/middleware.ts.
+    domain: Adapter API
+  - term: createAuthClient
+    definition: >
+      Browser-side factory from @danielvm/neon-astro-auth.
+      Wraps Better Auth's client SDK. Used in client-side <script> tags.
+    domain: Adapter API
+  - term: neonAuth()
+    definition: >
+      Astro integration function from @danielvm/neon-astro-auth/integration.
+      Auto-wires routes and middleware in astro.config.mjs.
+    domain: Adapter API
+  - term: Route handler
+    definition: >
+      The adapter's API proxy — forwards /api/auth/[...slug] requests to
+      Neon Auth. Injected via injectRoute in astro.config.mjs.
+    domain: Adapter API
+  - term: skipRoutes
+    definition: >
+      Array of URL patterns that bypass middleware auth checks.
+      Currently: ["/", "/login", "/signup", "/api/health"].
+    domain: Adapter API
+
+  # ── Auth Domain ──
+  - term: Session token
+    definition: >
+      A JWT stored in an HTTP-only cookie (__Secure-neon-auth.session_token).
+      Set by Neon Auth after successful login. Validated by middleware on every
+      protected request.
+    domain: Auth Domain
+  - term: Session validation
+    definition: >
+      The process of sending the session token to Neon Auth's /get-session
+      endpoint and receiving user data (or an error).
+    domain: Auth Domain
+  - term: Auth guard
+    definition: >
+      The getAuthMiddleware() function in src/middleware.ts. Checks for required
+      env vars before initializing the auth middleware. Returns a no-op if vars
+      are missing.
+    domain: Auth Domain
+  - term: No-op middleware
+    definition: >
+      A pass-through middleware returned when auth env vars are missing.
+      Calls next() without any auth check.
+    domain: Auth Domain
+  - term: Protected route
+    definition: >
+      Any page or API endpoint that requires a valid session.
+      Unauthenticated requests receive a 302 redirect to /login.
+    domain: Auth Domain
+  - term: Public route
+    definition: >
+      Any page accessible without authentication.
+      Currently: /, /login, /signup, /api/health.
+    domain: Auth Domain
+
+  # ── Demo Pages ──
+  - term: Home page
+    definition: >
+      / — SSR page showing health status of Neon Auth (configured/missing)
+      and Neon DB (connected/unavailable).
+    domain: Demo Pages
+  - term: Login page
+    definition: >
+      /login — Email/password sign-in form. Submits via signIn.email() from
+      the auth client. Redirects to /dashboard on success.
+    domain: Demo Pages
+  - term: Signup page
+    definition: >
+      /signup — Registration form (email, password, name). Submits via
+      signUp.email(). Redirects to /login on success.
+    domain: Demo Pages
+  - term: Dashboard
+    definition: >
+      /dashboard — SSR-protected page. Shows "Welcome, [email]" and a film
+      catalog queried from Neon DB.
+    domain: Demo Pages
+  - term: Film detail
+    definition: >
+      /films/[id] — SSR-protected page. Shows a single film with its actors
+      (joined from film_actor + actor tables).
+    domain: Demo Pages
+  - term: Profile
+    definition: >
+      /profile — Client-side auth page. Uses getSession() in a browser
+      <script> to display user info.
+    domain: Demo Pages
+  - term: Health API
+    definition: >
+      GET /api/health — Public JSON endpoint returning { db, auth } status.
+      Used for monitoring.
+    domain: Demo Pages
+  - term: Films API
+    definition: >
+      GET /api/films — Protected JSON endpoint returning film array.
+    domain: Demo Pages
+  - term: Reviews API
+    definition: >
+      POST /api/reviews — Protected endpoint for submitting film reviews.
+      Schema TBD.
+    domain: Demo Pages
+
+  # ── Infrastructure ──
+  - term: SSR function
+    definition: >
+      A Netlify serverless function that runs Astro's SSR runtime. Every page
+      request invokes this function.
+    domain: Infrastructure
+  - term: DVD Rental
+    definition: >
+      PostgreSQL sample dataset from the official PG docs. Pre-loaded into
+      Neon DB. The demo uses film, actor, and film_actor tables.
+    domain: Infrastructure
+  - term: Health check
+    definition: >
+      The getHealthStatus() function in src/health-check.ts. Pings Neon DB with
+      SELECT 1 and checks auth env var presence. Returns HealthStatus object.
+    domain: Infrastructure
+  - term: Graceful degradation
+    definition: >
+      The app's ability to serve pages when a dependency (Neon Auth, Neon DB)
+      is unavailable. The home page and health API show status without crashing.
+    domain: Infrastructure
+  - term: Preflight
+    definition: >
+      The npm run preflight command — runs typecheck → unit tests → build → E2E
+      in sequence. Used as a quality gate before commits.
+    domain: Infrastructure
+
+  # ── Release Management ──
+  - term: Epic
+    definition: >
+      A vertical slice producing testable pages. Numbered 0.1–0.5. Each epic
+      has its own version tag (v0.1.0–v0.5.0).
+    domain: Release Management
+  - term: Story
+    definition: >
+      A single testable unit of work within an epic. Numbered like 0.2.3.
+      Each follows TDD: RED → GREEN → REFACTOR.
+    domain: Release Management
+  - term: Vertical slice
+    definition: >
+      A complete, testable piece of functionality that spans all layers
+      (page → middleware → adapter → Neon). No "horizontal" layers built
+      in isolation.
+    domain: Release Management

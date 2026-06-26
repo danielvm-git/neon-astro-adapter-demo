@@ -1,0 +1,42 @@
+# Release Plan — Neon Auth Astro Demo
+# Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
+
+version: 1
+project: Neon Auth Astro Demo
+
+epics:
+  - id: e01
+    title: "Scaffold & Neon Connection"
+    version: v0.1.0
+    wsjf: 10
+    file: specs/epics/e01-scaffold/epic.yaml
+
+  - id: e02
+    title: "Auth UI (login, signup)"
+    version: v0.2.0
+    wsjf: 9
+    file: specs/epics/e02-auth-ui/epic.yaml
+
+  - id: e03
+    title: "Protected SSR + Neon DB Film Catalog"
+    version: v0.3.0
+    wsjf: 8
+    file: specs/epics/e03-protected-ssr/epic.yaml
+
+  - id: e04
+    title: "Client Auth + Full Navigation Flows"
+    version: v0.4.0
+    wsjf: 7
+    file: specs/epics/e04-client-auth/epic.yaml
+
+  - id: e05
+    title: "Deploy & Document"
+    version: v0.5.0
+    wsjf: 6
+    file: specs/epics/e05-deploy/epic.yaml
+
+  - id: e06
+    title: "MVP Release"
+    version: v1.0.0
+    wsjf: 5
+    file: null
