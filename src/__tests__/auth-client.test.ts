@@ -27,4 +27,15 @@ describe("authClient", () => {
       expect(typeof Reflect.get(client, method)).toBe("function");
     }
   });
+
+  it("getAuthClient accepts baseUrlOverride instead of env var", async () => {
+    const mod = await import("../auth-client");
+
+    const client = mod.getAuthClient("https://override.example.com");
+
+    const methods = ["signIn", "signUp", "signOut", "getSession"] as const;
+    for (const method of methods) {
+      expect(typeof Reflect.get(client, method)).toBe("function");
+    }
+  });
 });

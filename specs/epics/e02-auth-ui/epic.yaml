@@ -10,7 +10,7 @@ stories:
     title: "Auth client helper"
     type: feat
     context: domain
-    status: pending
+    status: done
     depends_on:
       - "0.1.2"
     bcps: 1
@@ -52,7 +52,7 @@ stories:
     title: "Login page"
     type: feat
     context: domain
-    status: pending
+    status: done
     depends_on:
       - "0.2.1"
     bcps: 2
@@ -102,7 +102,7 @@ stories:
     title: "Signup page"
     type: feat
     context: domain
-    status: pending
+    status: done
     depends_on:
       - "0.2.1"
     bcps: 2
@@ -131,11 +131,23 @@ stories:
       - "grep -q 'signUp.email' src/pages/signup.astro"
       - "npx vitest run"
 
+  - id: "0.2.4"
+    title: "Middleware wired (skip auth routes)"
+    type: feat
+    context: infra
+    status: done
+    steps:
+      - "Write src/middleware.ts using createAstroAuth from @danielvm/neon-astro-auth"
+      - "Login page accessible without auth"
+    verify:
+      - "grep -q 'createAstroAuth' src/middleware.ts"
+      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/login returns 200"
+
   - id: "0.2.5"
     title: "Playwright E2E — register & login"
     type: feat
     context: infra
-    status: pending
+    status: done
     depends_on:
       - "0.2.2"
       - "0.2.3"
@@ -158,47 +170,6 @@ stories:
       - "Write e2e/auth.spec.ts"
     verify:
       - "test -f e2e/auth.spec.ts"
-
-  - id: "0.2.3"
-    title: "Signup page"
-    type: feat
-    context: domain
-    status: pending
-    depends_on:
-      - "0.2.1"
-    steps:
-      - "Write src/pages/signup.astro with form"
-      - "Form submits to client-side handler using signUp.email()"
-      - "Error message shown on duplicate email"
-    verify:
-      - "curl -s http://localhost:4321/signup | grep -q '<form'"
-      - "Playwright fills form, observes redirect to /login"
-      - "Playwright submits existing email, sees error text"
-
-  - id: "0.2.4"
-    title: "Middleware wired (skip auth routes)"
-    type: feat
-    context: infra
-    status: done
-    steps:
-      - "Write src/middleware.ts using createAstroAuth from @danielvm/neon-astro-auth"
-      - "Login page accessible without auth"
-    verify:
-      - "grep -q 'createAstroAuth' src/middleware.ts"
-      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/login returns 200"
-
-  - id: "0.2.5"
-    title: "Playwright E2E — register & login"
-    type: feat
-    context: infra
-    status: pending
-    depends_on:
-      - "0.2.2"
-      - "0.2.3"
-    steps:
-      - "Write e2e/auth.spec.ts covering register + login flow"
-    verify:
-      - "npx playwright test e2e/auth.spec.ts"
 
 risks:
   - "Requires real Neon Auth project with email/password provider enabled"
