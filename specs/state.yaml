@@ -3,17 +3,11 @@
 ## Git Metadata
 
 - **Branch**: main
-- **Hash**: ca3323f
+- **Hash**: 36fad3b
 
 ## Current Milestone
 
-Migrated from custom (pre-bigpowers) format on 2026-06-26.
-Next: build epic e02 (Auth UI) with --fast mode.
-
-## Git Metadata
-
-- **Branch**: main
-- **Hash**: 2b6b094 (fix(middleware): guard against missing Neon Auth env vars)
+Post bug-fix: auth-client.ts now uses lazy getAuthClient() matching graceful degradation policy. Next: continue epic e02 (Auth UI).
 
 ## Completed Releases
 
@@ -25,7 +19,7 @@ Next: build epic e02 (Auth UI) with --fast mode.
 
 last_step_completed: "migrate-spec from custom format to bigpowers YAML layout"
 open_decisions:
-  - "Graceful degradation policy — no-op middleware vs hard error for missing auth vars"
+  - "Graceful degradation policy — RESOLVED for middleware and auth-client (both use deferred/guard pattern). Still open for db.ts (throws on first query, acceptable)."
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
   - "Auth client URL injection mechanism — how does the browser get NEON_AUTH_BASE_URL?"
 required_reading:
@@ -40,6 +34,10 @@ next_skill: survey-context
 ## Current Flow
 
 active_flow: idle
+last_bug: BUG-001
+last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
+bug_cycle: {}
+
 last_epic: e02
 last_story: "0.2.1"
 last_story_title: "Auth client helper"
