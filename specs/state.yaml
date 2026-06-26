@@ -38,7 +38,7 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: 3
+  current_step: 6
   fast_mode: true
   audit_result: null
   story_bcps: 3
