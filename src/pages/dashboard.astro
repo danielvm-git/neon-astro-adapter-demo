@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getFilms } from "../lib/films";
+
+const films = await getFilms();
+---
+
+<Layout title="Dashboard — Neon Auth + Astro Demo">
+  <h1>Film Catalog</h1>
+  <p>Welcome! Browse the film catalog from the DVD Rental database.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      {films.map((film) => (
+        <tr>
+          <td>
+            <a href={`/films/${film.film_id}`}>{film.title}</a>
+          </td>
+          <td>{film.release_year}</td>
+          <td>{film.rating}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p><a href="/">Home</a> | <a href="/login?logout">Log out</a></p>
+</Layout>
+
+<style>
+  h1 { margin-bottom: 1rem; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; }
+</style>
