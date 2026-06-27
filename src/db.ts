@@ -13,5 +13,19 @@ export async function sql(
     }
     client = neon(databaseUrl);
   }
-  return client(strings, ...values);
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("Database query timed out")), 5000);
+  });
+
+  try {
+    return await Promise.race([
+      client(strings, ...values),
+      timeoutPromise,
+    ]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
 }

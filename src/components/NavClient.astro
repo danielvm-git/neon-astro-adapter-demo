@@ -42,6 +42,10 @@ const { authUrl } = Astro.props;
       if (result.data?.user?.email) {
         loggedOut.hidden = true;
         loggedIn.hidden = false;
+        document.getElementById("nav-sign-out")?.addEventListener("click", async () => {
+          await client.signOut();
+          window.location.href = "/";
+        });
       } else {
         loggedOut.hidden = false;
         loggedIn.hidden = true;
