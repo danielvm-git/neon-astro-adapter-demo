@@ -159,15 +159,39 @@ stories:
     title: "POST API endpoint"
     type: feat
     context: domain
-    status: pending
+    status: in_progress
+    bcps: 4
     depends_on:
       - "0.3.3"
+      - "0.4.1"
     steps:
+      - "Create reviews table via Neon MCP migration"
       - "Write src/pages/api/reviews.ts — POST handler behind auth"
       - "Authenticated POST succeeds"
+    tasks:
+      - id: "0.4.5.1"
+        title: "Create reviews table via Neon MCP"
+        actions:
+          - "Use Neon MCP prepare_database_migration to create reviews table"
+          - "Schema: id SERIAL PK, film_id INT, user_id TEXT, rating INT (1-5), content TEXT, created_at TIMESTAMP"
+          - "Verify migration in temp branch, then apply to main"
+      - id: "0.4.5.2"
+        title: "Write reviews POST API endpoint"
+        file: src/pages/api/reviews.ts
+        actions:
+          - "POST handler extracts session from cookie"
+          - "Validates film_id, rating (1-5), content"
+          - "Inserts review into DB and returns 201"
+          - "Returns 401 if not authenticated"
+      - id: "0.4.5.3"
+        title: "Write tests for reviews API"
+        file: e2e/reviews.spec.ts
+        actions:
+          - "Playwright: unauthenticated POST returns 401/redirect"
+          - "(Full auth flow requires live Neon Auth backend)"
     verify:
       - "curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:4321/api/reviews returns 302"
-      - "Playwright sends POST with session cookie, status 200"
+      - "npx playwright test e2e/reviews.spec.ts"
 
   - id: "0.4.6"
     title: "Playwright E2E — full user journey"
