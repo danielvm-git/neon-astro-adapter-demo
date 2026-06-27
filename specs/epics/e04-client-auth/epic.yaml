@@ -10,17 +10,46 @@ stories:
     title: "Profile page (client auth)"
     type: feat
     context: domain
-    status: pending
+    status: in_progress
+    bcps: 3
     depends_on:
       - "0.2.1"
     steps:
-      - "Write src/pages/profile.astro with client island"
+      - "Write src/components/ProfileClient.astro with client island"
       - "Client island calls getSession() and renders email"
       - "Unauthenticated shows 'Not logged in'"
+    tasks:
+      - id: "0.4.1.1"
+        title: "Create ProfileClient.astro client island component"
+        file: src/components/ProfileClient.astro
+        actions:
+          - "Define Props interface with authUrl: string"
+          - "Render placeholder <div id=\"profile-content\"> with loading text"
+          - "Add <script define:vars={{ authUrl }}> that dynamically imports createAuthClient"
+          - "Script calls getSession(), updates DOM with email or 'Not logged in'"
+      - id: "0.4.1.2"
+        title: "Create profile.astro page"
+        file: src/pages/profile.astro
+        actions:
+          - "Frontmatter reads NEON_AUTH_BASE_URL from env"
+          - "Render <ProfileClient authUrl={...} /> with Layout"
+          - "Title: 'Profile — Neon Auth + Astro Demo'"
+      - id: "0.4.1.3"
+        title: "Write Playwright E2E for profile page"
+        file: e2e/profile.spec.ts
+        actions:
+          - "Test authenticated: login, visit /profile, verify email displayed"
+          - "Test unauthenticated: visit /profile, verify 'Not logged in'"
+      - id: "0.4.1.4"
+        title: "Write Vitest unit test"
+        file: src/__tests__/pages/profile.test.ts
+        actions:
+          - "Test page renders without crashing"
+          - "Test client island placeholder structure"
     verify:
       - "curl -s http://localhost:4321/profile | grep -q 'script'"
-      - "Playwright: login, visit /profile, sees email"
-      - "Playwright: visit /profile without login, sees not-logged-in state"
+      - "npx playwright test e2e/profile.spec.ts"
+      - "npx vitest run src/__tests__/pages/profile.test.ts"
 
   - id: "0.4.2"
     title: "Sign-out flow"

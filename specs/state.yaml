@@ -14,22 +14,20 @@ release:
 
 ## Current Milestone
 
-Epic e03 (Protected SSR + Neon DB Film Catalog): story 0.3.1 (Dashboard page) complete. Next: story 0.3.2 (Film detail page).
+Epic e04 (Client Auth + Full Navigation Flows): starting story 0.4.1 (Profile page with client auth). Next: story 0.4.2 (Sign-out flow).
 
 ## Completed Releases
 
 - v0.1.0 — Epic 0.1 (Scaffold & Neon Connection): 7/7 stories done
 - v0.2.0 — Epic 0.2 (Auth UI): 5/5 stories done
-- Epic 0.3: 1/5 stories done (dashboard page)
+- v0.3.0 — Epic 0.3 (Protected SSR + Neon DB Film Catalog): 5/5 stories done
 
 ## Handoff
 
-last_step_completed: "story 0.3.1 released"
+last_step_completed: "e03 fully released"
 open_decisions:
-  - "Graceful degradation policy — RESOLVED for middleware and auth-client (both use deferred/guard pattern). Still open for db.ts (throws on first query, acceptable)."
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
-  - "Auth client URL injection mechanism — RESOLVED: define:vars with is:inline script sets window.__NEON_AUTH_URL__, read by module script"
-  - "E2E tests pass locally but require live Neon Auth backend to test actual auth flow"
+  - "Graceful degradation policy — middleware and auth-client use deferred/guard pattern; db.ts throws on first query (acceptable)"
 next_skill: build-epic
 
 ## Current Flow
@@ -42,17 +40,17 @@ epic_cycle:
   fast_mode: true
   audit_result: null
   story_bcps: null
-  active_story: "0.3.5"
+  active_story: "0.4.1"
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
-active_epic: e03
-active_story: "0.3.5"
+active_epic: e04
+active_story: "0.4.1"
 last_epic: e03
-last_story: "0.3.3"
-last_story_title: "Dashboard page (protected)"
+last_story: "0.3.5"
+last_story_title: "E2E tests"
 release_result: merged (b8c2646)
 
 ## Pending Releases
