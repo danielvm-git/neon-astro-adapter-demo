@@ -1,0 +1,56 @@
+---
+export interface Props {
+  authUrl: string;
+}
+
+const { authUrl } = Astro.props;
+---
+
+<span id="nav-auth-out">
+  <a href="/login">Log in</a>
+  <a href="/signup">Sign up</a>
+</span>
+<span id="nav-auth-in" hidden>
+  <a href="/dashboard">Dashboard</a>
+  <button id="nav-sign-out" style="background:none;border:none;color:var(--link);cursor:pointer;font:inherit;padding:0">Sign out</button>
+</span>
+
+<script is:inline define:vars={{ authUrl }}>
+  window.__NEON_AUTH_URL__ = authUrl;
+</script>
+
+<script>
+  import { createAuthClient } from "@danielvm/neon-astro-auth";
+
+  (async () => {
+    try {
+      const authUrl: string = (window as unknown as Record<string, string>).__NEON_AUTH_URL__;
+      const loggedOut = document.getElementById("nav-auth-out");
+      const loggedIn = document.getElementById("nav-auth-in");
+      if (!loggedOut || !loggedIn) return;
+
+      if (!authUrl) {
+        loggedOut.hidden = false;
+        loggedIn.hidden = true;
+        return;
+      }
+
+      const client = createAuthClient(authUrl);
+      const result: { data: { user?: { email?: string } } | null } =
+        (await client.getSession()) as unknown as { data: { user?: { email?: string } } | null };
+
+      if (result.data?.user?.email) {
+        loggedOut.hidden = true;
+        loggedIn.hidden = false;
+      } else {
+        loggedOut.hidden = false;
+        loggedIn.hidden = true;
+      }
+    } catch {
+      const loggedOut = document.getElementById("nav-auth-out");
+      const loggedIn = document.getElementById("nav-auth-in");
+      if (loggedOut) loggedOut.hidden = false;
+      if (loggedIn) loggedIn.hidden = true;
+    }
+  })();
+</script>
