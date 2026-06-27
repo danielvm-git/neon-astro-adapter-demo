@@ -14,7 +14,7 @@ release:
 
 ## Current Milestone
 
-Epic e04 (Client Auth + Full Navigation Flows): starting story 0.4.1 (Profile page with client auth). Next: story 0.4.2 (Sign-out flow).
+Epic e04 (Client Auth + Full Navigation Flows): story 0.4.1 done. Next: story 0.4.2 (Sign-out flow).
 
 ## Completed Releases
 
@@ -28,7 +28,7 @@ last_step_completed: "e03 fully released"
 open_decisions:
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
   - "Graceful degradation policy — middleware and auth-client use deferred/guard pattern; db.ts throws on first query (acceptable)"
-next_skill: audit-code
+next_skill: survey-context
 
 ## Current Flow
 
@@ -36,26 +36,31 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: 6
+  current_step: 1
   fast_mode: true
-  audit_result: null
+  audit_result: pass
   story_bcps: 3
-  active_story: "0.4.1"
+  active_story: "0.4.2"
   completed_steps:
     - step_1_2_survey_plan
     - step_3_kickoff
     - step_4_develop_tdd
     - step_5_verify
+    - step_6_7_audit_commit
+    - step_8_release
+  story_0.4.1: done
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
 active_epic: e04
-active_story: "0.4.1"
-branch: profile-page-client-auth
-worktree: ../profile-page-client-auth
-last_epic: e03
+active_story: "0.4.2"
+last_story: "0.4.1"
+last_story_title: "Profile page (client auth)"
+branch: sign-out-flow
+worktree: ../sign-out-flow
+last_epic: e04
 last_story: "0.3.5"
 last_story_title: "E2E tests"
 release_result: merged (b8c2646)

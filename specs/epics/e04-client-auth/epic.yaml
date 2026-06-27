@@ -10,7 +10,7 @@ stories:
     title: "Profile page (client auth)"
     type: feat
     context: domain
-    status: in_progress
+    status: done
     bcps: 3
     depends_on:
       - "0.2.1"

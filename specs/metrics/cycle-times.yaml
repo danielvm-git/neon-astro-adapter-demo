@@ -29,3 +29,11 @@
   end: "2026-06-26T21:06:30Z"
   cycle_minutes: 2
   bcp_per_hour: 30.0
+
+- id: "0.4.1"
+  title: "Profile page (client auth)"
+  bcps: 3
+  start: "2026-06-26T20:30:00Z"
+  end: "2026-06-26T21:48:00Z"
+  cycle_minutes: 78
+  bcp_per_hour: 2.3
