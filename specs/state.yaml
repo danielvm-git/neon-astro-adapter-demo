@@ -3,34 +3,27 @@
 ## Git Metadata
 
 - **Branch**: main
-- **Hash**: 36fad3b
+- **Hash**: b8c2646
 
 ## Current Milestone
 
-Epic e02 (Auth UI) complete. All 5 stories done: auth client helper, login page, signup page, middleware, E2E. Next: continue epic e03.
+Epic e03 (Protected SSR + Neon DB Film Catalog): story 0.3.1 (Dashboard page) complete. Next: story 0.3.2 (Film detail page).
 
 ## Completed Releases
 
 - v0.1.0 — Epic 0.1 (Scaffold & Neon Connection): 7/7 stories done
 - v0.2.0 — Epic 0.2 (Auth UI): 5/5 stories done
-- Epic 0.3: 1/5 stories done (session validation)
+- Epic 0.3: 1/5 stories done (dashboard page)
 
 ## Handoff
 
-last_step_completed: "migrate-spec from custom format to bigpowers YAML layout"
+last_step_completed: "story 0.3.1 released"
 open_decisions:
   - "Graceful degradation policy — RESOLVED for middleware and auth-client (both use deferred/guard pattern). Still open for db.ts (throws on first query, acceptable)."
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
   - "Auth client URL injection mechanism — RESOLVED: define:vars with is:inline script sets window.__NEON_AUTH_URL__, read by module script"
   - "E2E tests pass locally but require live Neon Auth backend to test actual auth flow"
-required_reading:
-  - specs/product/VISION_LATEST.yaml
-  - specs/product/SCOPE_LATEST.yaml
-  - specs/tech-architecture/TECH_STACK_LATEST.md
-  - specs/release-plan.yaml
-  - specs/bugs/registry.yaml
-  - specs/archive/MIGRATE-SKILL-FEATURE-REQUEST.md
-next_skill: survey-context
+next_skill: build-epic
 
 ## Current Flow
 
@@ -38,22 +31,22 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: 6
+  current_step: 1
   fast_mode: true
   audit_result: null
-  story_bcps: 3
-  active_story: "0.3.1"
+  story_bcps: null
+  active_story: "0.3.2"
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
 active_epic: e03
-active_story: "0.3.1"
-last_epic: e02
-last_story: "0.2.5"
-last_story_title: "Playwright E2E"
-release_result: merged (056fb70)
+active_story: "0.3.2"
+last_epic: e03
+last_story: "0.3.1"
+last_story_title: "Dashboard page (protected)"
+release_result: merged (b8c2646)
 
 ## Pending Releases
 
@@ -61,4 +54,3 @@ release_result: merged (056fb70)
 - [ ] Epic 0.3: 3 stories pending (0.3.2, 0.3.3, 0.3.5)
 - [ ] Epic 0.4: 6 stories pending
 - [ ] Epic 0.5: 4 stories pending
-- [ ] Resolve open decisions: graceful degradation policy, reviews table schema
