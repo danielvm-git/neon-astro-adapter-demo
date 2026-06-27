@@ -197,7 +197,8 @@ stories:
     title: "Playwright E2E — full user journey"
     type: feat
     context: infra
-    status: pending
+    status: in_progress
+    bcps: 2
     depends_on:
       - "0.4.1"
       - "0.4.2"
@@ -206,6 +207,14 @@ stories:
       - "0.4.5"
     steps:
       - "Write e2e/full-flow.spec.ts — register → login → browse dashboard → view film → profile → POST review → sign out → login redirect"
+    tasks:
+      - id: "0.4.6.1"
+        title: "Write comprehensive E2E full-flow test"
+        file: e2e/full-flow.spec.ts
+        actions:
+          - "Full user journey test covering all pages and features"
+          - "Home page → health check → dashboard → film detail"
+          - "Profile page → error pages → reviews API → sign out"
     verify:
       - "npx playwright test e2e/full-flow.spec.ts"
 
