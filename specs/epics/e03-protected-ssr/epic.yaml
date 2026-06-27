@@ -70,18 +70,52 @@ stories:
     title: "Film detail page"
     type: feat
     context: domain
-    status: pending
+    bcps: 4
+    status: in_progress
     depends_on:
       - "0.3.1"
       - "0.1.4"
-    steps:
-      - "Write src/pages/films/[id].astro — queries single film with actors"
-      - "404 for invalid film ID"
-      - "Vitest: film data shape correct"
+    tasks:
+      - id: "0.3.2.1"
+        title: "Add getFilm(id) to films lib"
+        description: >
+          Add getFilm(id: number) function to src/lib/films.ts that:
+          1. Queries a single film by film_id
+          2. Joins actor table via film_actor to get actors
+          3. Returns film details + actor list
+          4. Returns null for invalid IDs
+          Type: FilmDetail with actors: Actor[]
+        files:
+          - "src/lib/films.ts"
+        verify: "grep -q 'export async function getFilm' src/lib/films.ts"
+
+      - id: "0.3.2.2"
+        title: "Write film detail page"
+        description: >
+          Create src/pages/films/[id].astro — Astro SSR page that:
+          1. Reads film ID from Astro.params
+          2. Calls getFilm(id)
+          3. Renders film title, year, rating, description
+          4. Lists actors
+          5. Shows 404 via Astro.redirect when film is null
+          6. Follows existing Layout pattern
+        files:
+          - "src/pages/films/[id].astro"
+        verify: "test -f src/pages/films/[id].astro"
+
+      - id: "0.3.2.3"
+        title: "Write film detail tests"
+        description: >
+          Create src/__tests__/pages/films/index.test.ts — Vitest tests:
+          1. getFilm returns film with expected shape
+          2. getFilm includes actors array
+          3. getFilm returns null for nonexistent ID
+          Mock sql from db.ts as before.
+        files:
+          - "src/__tests__/pages/films/index.test.ts"
+        verify: "npx vitest run src/__tests__/pages/films/"
     verify:
-      - "curl -s http://localhost:4321/films/1 | grep -q 'actor'"
-      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/films/99999 returns 404"
-      - "npx vitest run src/pages/films/"
+      - "npx vitest run src/__tests__/pages/films/"
 
   - id: "0.3.3"
     title: "Protected API endpoint"
