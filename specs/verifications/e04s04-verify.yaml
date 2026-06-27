@@ -1,0 +1,16 @@
+story_id: "0.4.4"
+verified_at: "2026-06-26T21:50:00Z"
+verifier: verify-work
+phases:
+  build:
+    passed: true
+  typecheck:
+    passed: true
+  tests:
+    vitest: "21 passed"
+    playwright: "14 passed (1 new error test)"
+  verify_commands:
+    - command: "npx playwright test e2e/errors.spec.ts"
+      passed: true
+  gaps:
+    closed: true
