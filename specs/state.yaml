@@ -5,6 +5,13 @@
 - **Branch**: main
 - **Hash**: b8c2646
 
+## Release Verification
+
+release:
+  ci_verified: true
+  ci_run: 28272226565
+  released_at: "2026-06-26T21:18:00Z"
+
 ## Current Milestone
 
 Epic e03 (Protected SSR + Neon DB Film Catalog): story 0.3.1 (Dashboard page) complete. Next: story 0.3.2 (Film detail page).
