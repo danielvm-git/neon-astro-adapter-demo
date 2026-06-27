@@ -10,7 +10,9 @@ function getAuthMiddleware(): (
   const baseUrl = import.meta.env.NEON_AUTH_BASE_URL;
   const secret = import.meta.env.NEON_AUTH_COOKIE_SECRET;
   if (!baseUrl || !secret) {
-    return async (_ctx, next) => next();
+    throw new Error(
+      "NEON_AUTH_BASE_URL and NEON_AUTH_COOKIE_SECRET environment variables are required",
+    );
   }
   return createAstroAuth({
     baseUrl,

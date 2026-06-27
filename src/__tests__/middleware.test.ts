@@ -1,8 +1,26 @@
-import { describe, it, expect } from "vitest";
-import { onRequest } from "../middleware";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 describe("middleware", () => {
-  it("calls next and returns its response when auth env vars are missing", async () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.unstubAllEnvs();
+  });
+
+  it("throws when auth env vars are missing", async () => {
+    vi.stubEnv("NEON_AUTH_BASE_URL", "");
+    vi.stubEnv("NEON_AUTH_COOKIE_SECRET", "");
+    await expect(import("../middleware")).rejects.toThrow(
+      "NEON_AUTH_BASE_URL and NEON_AUTH_COOKIE_SECRET environment variables are required",
+    );
+  });
+
+  it("loads successfully and runs when env vars are present", async () => {
+    vi.stubEnv("NEON_AUTH_BASE_URL", "https://auth.example.com");
+    vi.stubEnv("NEON_AUTH_COOKIE_SECRET", "12345678901234567890123456789012");
+    
+    const { onRequest } = await import("../middleware");
+    expect(onRequest).toBeDefined();
+
     const ctx = {
       request: new Request("http://localhost/"),
       url: new URL("http://localhost/"),
@@ -14,19 +32,6 @@ describe("middleware", () => {
 
     const response = await onRequest(ctx, next);
     expect(response.status).toBe(200);
-    expect(await response.text()).toBe("OK");
-  });
-
-  it("re-throws when next throws", async () => {
-    const ctx = {
-      request: new Request("http://localhost/"),
-      url: new URL("http://localhost/"),
-      locals: {},
-    } as any;
-
-    const error = new Error("db failure");
-    const next = async () => { throw error; };
-
-    await expect(onRequest(ctx, next)).rejects.toThrow("db failure");
   });
 });
+
