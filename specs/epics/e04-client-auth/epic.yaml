@@ -86,18 +86,39 @@ stories:
     title: "Navigation with auth state"
     type: feat
     context: domain
-    status: pending
+    status: in_progress
+    bcps: 3
     depends_on:
       - "0.4.1"
       - "0.2.1"
     steps:
-      - "Write src/layouts/Layout.astro with conditional nav"
+      - "Write src/components/NavClient.astro with conditional nav"
       - "Logged-out state shows 'Login' link"
       - "Logged-in state shows 'Dashboard' and 'Sign out'"
+    tasks:
+      - id: "0.4.3.1"
+        title: "Create NavClient.astro with conditional auth nav"
+        file: src/components/NavClient.astro
+        actions:
+          - "Two-script pattern: is:inline sets window.__NEON_AUTH_URL__, bundled module imports createAuthClient"
+          - "Render two nav sections: logged-out (Login, Sign up) and logged-in (Dashboard, Sign out)"
+          - "On session check: show/hide appropriate section"
+      - id: "0.4.3.2"
+        title: "Update Layout.astro with NavClient"
+        file: src/layouts/Layout.astro
+        actions:
+          - "Replace static nav links with <NavClient authUrl={...} />"
+          - "Include fallback static nav when authUrl not configured"
+      - id: "0.4.3.3"
+        title: "Write Playwright E2E test"
+        file: e2e/nav.spec.ts
+        actions:
+          - "Visit / without login, verify 'Login' link visible"
+          - "(Full auth-dependent nav requires live Neon Auth backend)"
     verify:
-      - "grep -q 'getSession' src/layouts/Layout.astro"
-      - "Playwright: visit / without login, see 'Login' link"
-      - "Playwright: login, visit /, see dashboard link"
+      - "grep -q 'getSession' src/layouts/Layout.astro src/components/NavClient.astro"
+      - "npx playwright test e2e/nav.spec.ts"
+      - "npx vitest run"
 
   - id: "0.4.4"
     title: "Error handling pages"
