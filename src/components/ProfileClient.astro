@@ -19,19 +19,20 @@ const { authUrl } = Astro.props;
 
   (async () => {
     try {
-      const authUrl = window.__NEON_AUTH_URL__;
+      const authUrl: string = (window as unknown as Record<string, string>).__NEON_AUTH_URL__;
       if (!authUrl) {
         const container = document.getElementById("profile-content");
         if (container) container.innerHTML = `<p>Not logged in</p>`;
         return;
       }
       const client = createAuthClient(authUrl);
-      const session = await client.getSession();
+      const result: { data: { user?: { email?: string } } | null } =
+        (await client.getSession()) as unknown as { data: { user?: { email?: string } } | null };
       const container = document.getElementById("profile-content");
 
       if (container) {
-        if (session?.user?.email) {
-          container.innerHTML = `<p>Logged in as <strong>${session.user.email}</strong></p>`;
+        if (result.data?.user?.email) {
+          container.innerHTML = `<p>Logged in as <strong>${result.data.user.email}</strong></p>`;
         } else {
           container.innerHTML = `<p>Not logged in</p>`;
         }
