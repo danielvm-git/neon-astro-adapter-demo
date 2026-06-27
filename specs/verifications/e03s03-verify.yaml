@@ -1,0 +1,24 @@
+story_id: e03s03
+title: "Protected API endpoint"
+verified_at: "2026-06-26T21:04:00Z"
+verifier: verify-work
+phases:
+  typecheck:
+    passed: true
+  build:
+    passed: true
+  tests:
+    passed: true
+    summary: "21 tests across 9 test files"
+  manual:
+    steps:
+      - step: "API returns JSON film array"
+        expected: "GET /api/films returns 200 JSON with film data"
+        actual: "2 API tests pass: array shape + empty fallback"
+        passed: true
+      - step: "Protected by middleware"
+        expected: "/api not in skipRoutes"
+        actual: "Verified: skipRoutes does not include /api"
+        passed: true
+  gaps:
+    closed: true
