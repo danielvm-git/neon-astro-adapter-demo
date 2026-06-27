@@ -1,0 +1,46 @@
+---
+export interface Props {
+  authUrl: string;
+}
+
+const { authUrl } = Astro.props;
+---
+
+<div id="profile-content">
+  <p>Loading...</p>
+</div>
+
+<script is:inline define:vars={{ authUrl }}>
+  window.__NEON_AUTH_URL__ = authUrl;
+</script>
+
+<script>
+  import { createAuthClient } from "@danielvm/neon-astro-auth";
+
+  (async () => {
+    try {
+      const authUrl = window.__NEON_AUTH_URL__;
+      if (!authUrl) {
+        const container = document.getElementById("profile-content");
+        if (container) container.innerHTML = `<p>Not logged in</p>`;
+        return;
+      }
+      const client = createAuthClient(authUrl);
+      const session = await client.getSession();
+      const container = document.getElementById("profile-content");
+
+      if (container) {
+        if (session?.user?.email) {
+          container.innerHTML = `<p>Logged in as <strong>${session.user.email}</strong></p>`;
+        } else {
+          container.innerHTML = `<p>Not logged in</p>`;
+        }
+      }
+    } catch {
+      const container = document.getElementById("profile-content");
+      if (container) {
+        container.innerHTML = `<p>Not logged in</p>`;
+      }
+    }
+  })();
+</script>
