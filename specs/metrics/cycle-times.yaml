@@ -1,7 +1,31 @@
-- id: e02s01
-  title: "Auth client helper"
+- id: e03s01
+  title: "Dashboard page (protected)"
+  bcps: 3
+  start: "2026-06-26T20:22:00Z"
+  end: "2026-06-26T20:55:00Z"
+  cycle_minutes: 33
+  bcp_per_hour: 5.5
+
+- id: e03s02
+  title: "Film detail page"
+  bcps: 4
+  start: "2026-06-26T20:57:00Z"
+  end: "2026-06-26T21:02:00Z"
+  cycle_minutes: 5
+  bcp_per_hour: 48.0
+
+- id: e03s03
+  title: "Protected API endpoint"
+  bcps: 2
+  start: "2026-06-26T21:02:30Z"
+  end: "2026-06-26T21:04:30Z"
+  cycle_minutes: 2
+  bcp_per_hour: 60.0
+
+- id: e03s05
+  title: "Playwright E2E — protected routes"
   bcps: 1
-  start: "2026-06-26T18:31:00Z"
-  end: "2026-06-26T18:42:00Z"
-  cycle_minutes: 11
-  bcp_per_hour: 5.45
+  start: "2026-06-26T21:04:45Z"
+  end: "2026-06-26T21:06:30Z"
+  cycle_minutes: 2
+  bcp_per_hour: 30.0
