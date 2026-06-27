@@ -32,7 +32,14 @@ const { authUrl } = Astro.props;
 
       if (container) {
         if (result.data?.user?.email) {
-          container.innerHTML = `<p>Logged in as <strong>${result.data.user.email}</strong></p>`;
+          container.innerHTML = `
+            <p>Logged in as <strong>${result.data.user.email}</strong></p>
+            <button id="sign-out-btn">Sign out</button>
+          `;
+          document.getElementById("sign-out-btn")?.addEventListener("click", async () => {
+            await client.signOut();
+            window.location.href = "/";
+          });
         } else {
           container.innerHTML = `<p>Not logged in</p>`;
         }
