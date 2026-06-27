@@ -45,3 +45,36 @@
   end: "2026-06-26T21:42:00Z"
   cycle_minutes: 7
   bcp_per_hour: 17.1
+
+- id: "0.4.3"
+  title: "Navigation with auth state"
+  bcps: 3
+  start: "2026-06-26T21:42:00Z"
+  end: "2026-06-26T21:47:00Z"
+  cycle_minutes: 5
+  bcp_per_hour: 36.0
+
+- id: "0.4.4"
+  title: "Error handling pages"
+  bcps: 2
+  start: "2026-06-26T21:47:00Z"
+  end: "2026-06-26T21:50:00Z"
+  cycle_minutes: 3
+  bcp_per_hour: 40.0
+
+- id: "0.4.5"
+  title: "POST API endpoint"
+  bcps: 4
+  start: "2026-06-26T21:50:00Z"
+  end: "2026-06-27T00:47:00Z"
+  cycle_minutes: 177
+  bcp_per_hour: 1.4
+
+- id: "0.4.6"
+  title: "Playwright E2E — full user journey"
+  bcps: 2
+  start: "2026-06-27T00:47:00Z"
+  end: "2026-06-27T01:05:00Z"
+  cycle_minutes: 18
+  bcp_per_hour: 6.7
+
