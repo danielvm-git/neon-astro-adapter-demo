@@ -55,7 +55,7 @@ stories:
     title: "Sign-out flow"
     type: feat
     context: domain
-    status: in_progress
+    status: done
     bcps: 2
     depends_on:
       - "0.2.1"

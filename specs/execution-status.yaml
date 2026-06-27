@@ -42,7 +42,7 @@ epics:
     status: active
     stories:
       "0.4.1": done
-      "0.4.2": pending
+      "0.4.2": done
       "0.4.3": pending
       "0.4.4": pending
       "0.4.5": pending
