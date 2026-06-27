@@ -37,3 +37,11 @@
   end: "2026-06-26T21:48:00Z"
   cycle_minutes: 78
   bcp_per_hour: 2.3
+
+- id: "0.4.2"
+  title: "Sign-out flow"
+  bcps: 2
+  start: "2026-06-26T21:35:00Z"
+  end: "2026-06-26T21:42:00Z"
+  cycle_minutes: 7
+  bcp_per_hour: 17.1

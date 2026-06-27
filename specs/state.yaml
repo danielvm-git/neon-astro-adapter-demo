@@ -14,7 +14,7 @@ release:
 
 ## Current Milestone
 
-Epic e04 (Client Auth + Full Navigation Flows): story 0.4.1 done. Next: story 0.4.2 (Sign-out flow).
+Epic e04 (Client Auth + Full Navigation Flows): stories 0.4.1-0.4.2 done. Next: story 0.4.3 (Navigation with auth state).
 
 ## Completed Releases
 
@@ -40,20 +40,21 @@ epic_cycle:
   fast_mode: true
   audit_result: null
   story_bcps: 2
-  active_story: "0.4.2"
+  active_story: "0.4.3"
   completed_steps: []
   story_0.4.1: done
+  story_0.4.2: done
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
 active_epic: e04
-active_story: "0.4.2"
-last_story: "0.4.1"
-last_story_title: "Profile page (client auth)"
-branch: sign-out-flow
-worktree: ../sign-out-flow
+active_story: "0.4.3"
+last_story: "0.4.2"
+last_story_title: "Sign-out flow"
+branch: navigation-auth-state
+worktree: ../navigation-auth-state
 last_epic: e04
 last_story: "0.3.5"
 last_story_title: "E2E tests"
