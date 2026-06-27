@@ -13,7 +13,8 @@ describe("films API endpoint", () => {
     (getFilms as ReturnType<typeof vi.fn>).mockResolvedValue(mockFilms);
 
     const mod = await import("../../../pages/api/films");
-    const response = await mod.GET();
+    const ctx = {} as any;
+    const response = await mod.GET(ctx);
     const data = await response.json();
 
     expect(response.status).toBe(200);
@@ -27,7 +28,8 @@ describe("films API endpoint", () => {
     (getFilms as ReturnType<typeof vi.fn>).mockResolvedValue([]);
 
     const mod = await import("../../../pages/api/films");
-    const response = await mod.GET();
+    const ctx = {} as any;
+    const response = await mod.GET(ctx);
     const data = await response.json();
 
     expect(data).toEqual([]);
