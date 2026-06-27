@@ -1,0 +1,30 @@
+story_id: e03s02
+title: "Film detail page"
+verified_at: "2026-06-26T21:02:00Z"
+verifier: verify-work
+phases:
+  typecheck:
+    passed: true
+    command: "npx astro check"
+  build:
+    passed: true
+    command: "npx astro build"
+  tests:
+    passed: true
+    summary: "19 tests passed across 8 test files"
+  manual:
+    steps:
+      - step: "getFilm returns film detail with actors"
+        expected: "Returns FilmDetail with film_id, title, actors array"
+        actual: "3 unit tests pass covering shape, actors, null for invalid"
+        passed: true
+      - step: "Film detail page renders"
+        expected: "Page compiles without errors"
+        actual: "Typecheck 0 errors, build succeeds"
+        passed: true
+      - step: "Invalid film ID redirects to /"
+        expected: "Returns 302 redirect"
+        actual: "Astro.redirect to / for null film"
+        passed: true
+  gaps:
+    closed: true
