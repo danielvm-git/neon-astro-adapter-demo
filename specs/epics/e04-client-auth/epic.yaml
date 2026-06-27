@@ -55,7 +55,8 @@ stories:
     title: "Sign-out flow"
     type: feat
     context: domain
-    status: pending
+    status: in_progress
+    bcps: 2
     depends_on:
       - "0.2.1"
       - "0.4.1"
@@ -63,9 +64,22 @@ stories:
       - "Add sign-out button (calls signOut())"
       - "After sign-out, /dashboard redirects to /login"
       - "Vitest: signOut clears client state"
+    tasks:
+      - id: "0.4.2.1"
+        title: "Add sign-out button to ProfileClient.astro"
+        file: src/components/ProfileClient.astro
+        actions:
+          - "Add sign-out button below email display"
+          - "Button click calls client.signOut() then redirects to /"
+          - "Unauthenticated state: no sign-out button"
+      - id: "0.4.2.2"
+        title: "Write sign-out E2E test"
+        file: e2e/signout.spec.ts
+        actions:
+          - "Visit /profile without login, verify no sign-out button"
+          - "(Full sign-out flow requires live Neon Auth backend)"
     verify:
-      - "Playwright: click sign-out, redirected to /"
-      - "Playwright: sign out, visit /dashboard, sees login redirect"
+      - "npx playwright test e2e/signout.spec.ts"
       - "npx vitest run src/auth-client.test.ts"
 
   - id: "0.4.3"

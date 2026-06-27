@@ -38,16 +38,10 @@ easy_mode: true
 epic_cycle:
   current_step: 1
   fast_mode: true
-  audit_result: pass
-  story_bcps: 3
+  audit_result: null
+  story_bcps: 2
   active_story: "0.4.2"
-  completed_steps:
-    - step_1_2_survey_plan
-    - step_3_kickoff
-    - step_4_develop_tdd
-    - step_5_verify
-    - step_6_7_audit_commit
-    - step_8_release
+  completed_steps: []
   story_0.4.1: done
 
 last_bug: BUG-001
