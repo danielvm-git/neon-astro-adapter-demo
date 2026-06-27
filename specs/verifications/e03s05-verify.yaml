@@ -1,0 +1,20 @@
+story_id: e03s05
+title: "Playwright E2E — protected routes"
+verified_at: "2026-06-26T21:06:00Z"
+verifier: verify-work
+phases:
+  typecheck:
+    passed: true
+  build:
+    passed: true
+  tests:
+    passed: true
+    summary: "All E2E tests pass"
+  manual:
+    steps:
+      - step: "Run protected routes E2E"
+        expected: "3 tests pass"
+        actual: "3 E2E tests passed"
+        passed: true
+  gaps:
+    closed: true
