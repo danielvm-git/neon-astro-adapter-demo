@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProfileClient from "../components/ProfileClient.astro";
+
+const authUrl = import.meta.env.NEON_AUTH_BASE_URL;
+---
+
+<Layout title="Profile — Neon Auth + Astro Demo">
+  <h1>Profile</h1>
+  {authUrl ? (
+    <ProfileClient authUrl={authUrl} />
+  ) : (
+    <p>Auth service not configured.</p>
+  )}
+  <p><a href="/">Home</a></p>
+</Layout>
+
+<style>
+  h1 { margin-bottom: 1rem; }
+</style>
