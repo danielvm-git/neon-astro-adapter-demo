@@ -170,12 +170,23 @@ stories:
     title: "Playwright E2E — protected routes"
     type: feat
     context: infra
-    status: pending
+    bcps: 1
+    status: in_progress
     depends_on:
       - "0.3.1"
       - "0.3.2"
-    steps:
-      - "Write e2e/protected.spec.ts — unauthenticated redirect, authenticated access, film detail"
+    tasks:
+      - id: "0.3.5.1"
+        title: "Write protected routes E2E tests"
+        description: >
+          Create e2e/protected.spec.ts — Playwright E2E tests covering:
+          1. /films/99999 redirects to / (invalid film ID)
+          2. /films/1 renders without crashing
+          3. /api/films renders without crashing
+          Since no live auth backend, test for 200 response.
+        files:
+          - "e2e/protected.spec.ts"
+        verify: "npx playwright test e2e/protected.spec.ts"
     verify:
       - "npx playwright test e2e/protected.spec.ts"
 
