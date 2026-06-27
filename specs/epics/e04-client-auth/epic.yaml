@@ -124,15 +124,36 @@ stories:
     title: "Error handling pages"
     type: feat
     context: domain
-    status: pending
+    status: in_progress
+    bcps: 2
     steps:
-      - "Auth upstream unreachable → show 'Service temporarily unavailable'"
-      - "DB connection failure → show 'Database error' page"
+      - "Create custom 404 page"
+      - "Create custom 500 error page"
       - "Invalid film ID → 404 page"
+    tasks:
+      - id: "0.4.4.1"
+        title: "Create custom 404 page"
+        file: src/pages/404.astro
+        actions:
+          - "Create src/pages/404.astro with Layout, friendly message"
+          - "Title: 'Page Not Found — Neon Auth + Astro Demo'"
+          - "Include link back to home"
+      - id: "0.4.4.2"
+        title: "Create custom 500 error page"
+        file: src/pages/500.astro
+        actions:
+          - "Create src/pages/500.astro with Layout, friendly message"
+          - "Title: 'Error — Neon Auth + Astro Demo'"
+          - "Show 'Something went wrong' message with home link"
+      - id: "0.4.4.3"
+        title: "Write E2E tests for error pages"
+        file: e2e/errors.spec.ts
+        actions:
+          - "Visit /nonexistent-page, verify 404 content"
+          - "(Server error page tested via middleware test)"
     verify:
-      - "Vitest simulates fetch failure"
-      - "Vitest simulates DB timeout"
-      - "Playwright: visit /films/99999, sees custom 404"
+      - "npx playwright test e2e/errors.spec.ts"
+      - "npx vitest run"
 
   - id: "0.4.5"
     title: "POST API endpoint"
