@@ -1,0 +1,19 @@
+story_id: "0.4.2"
+verified_at: "2026-06-26T21:40:00Z"
+verifier: verify-work
+phases:
+  build:
+    passed: true
+  typecheck:
+    passed: true
+  tests:
+    passed: true
+    vitest: "21 passed"
+    playwright: "12 passed (1 new signout test)"
+  verify_commands:
+    - command: "npx playwright test e2e/signout.spec.ts"
+      passed: true
+    - command: "npx vitest run src/auth-client.test.ts"
+      passed: true
+  gaps:
+    closed: true
