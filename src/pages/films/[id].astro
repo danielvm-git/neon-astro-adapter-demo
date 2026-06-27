@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getFilm } from "../../lib/films";
+
+const id = Number(Astro.params.id);
+const film = Number.isNaN(id) ? null : await getFilm(id);
+
+if (!film) {
+  return Astro.redirect("/", 302);
+}
+---
+
+<Layout title={`${film.title} — Neon Auth + Astro Demo`}>
+  <h1>{film.title}</h1>
+  <dl>
+    <dt>Year</dt>
+    <dd>{film.release_year}</dd>
+    <dt>Rating</dt>
+    <dd>{film.rating}</dd>
+    <dt>Description</dt>
+    <dd>{film.description}</dd>
+  </dl>
+  <h2>Cast</h2>
+  {film.actors.length > 0 ? (
+    <ul>
+      {film.actors.map((actor) => (
+        <li>
+          {actor.first_name} {actor.last_name}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No cast information available.</p>
+  )}
+  <p><a href="/dashboard">Back to catalog</a></p>
+</Layout>
+
+<style>
+  h1 { margin-bottom: 1rem; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+  h2 { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  ul { list-style: none; padding: 0; }
+  li { padding: 0.25rem 0; }
+</style>
