@@ -121,18 +121,37 @@ stories:
     title: "Protected API endpoint"
     type: feat
     context: domain
-    status: pending
+    bcps: 2
+    status: in_progress
     depends_on:
       - "0.3.1"
       - "0.1.4"
-    steps:
-      - "Write src/pages/api/films.ts — queries DB, returns JSON"
-      - "Authenticated request returns JSON"
-      - "Vitest: API returns correct shape"
+    tasks:
+      - id: "0.3.3.1"
+        title: "Write films API endpoint"
+        description: >
+          Create src/pages/api/films.ts — Astro API route (APIRoute) that:
+          1. Imports getFilms from lib/films
+          2. Returns JSON response with film array
+          3. Protected by middleware automatically (/api not in skipRoutes)
+          4. Returns empty array on DB error (try-catch)
+        files:
+          - "src/pages/api/films.ts"
+        verify: "test -f src/pages/api/films.ts"
+
+      - id: "0.3.3.2"
+        title: "Write API endpoint tests"
+        description: >
+          Create src/__tests__/pages/api/films.test.ts — Vitest tests:
+          1. Mock getFilms from lib/films
+          2. Test that API returns JSON with expected shape
+          3. Test empty response when no films
+          Use vi.mock to mock the films module.
+        files:
+          - "src/__tests__/pages/api/films.test.ts"
+        verify: "npx vitest run src/__tests__/pages/api/films.test.ts"
     verify:
-      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/api/films returns 302 (redirect if unauthenticated)"
-      - "curl -s http://localhost:4321/api/films | jq '.[0].title' returns film title"
-      - "npx vitest run src/pages/api/films.test.ts"
+      - "npx vitest run src/__tests__/pages/api/films.test.ts"
 
   - id: "0.3.4"
     title: "Session validation on server"
