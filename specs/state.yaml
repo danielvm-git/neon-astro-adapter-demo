@@ -3,14 +3,14 @@
 ## Git Metadata
 
 - **Branch**: main
-- **Hash**: b8c2646
+- **Hash**: 672ea3e
 
 ## Release Verification
 
 release:
   ci_verified: true
   ci_run: 28272226565
-  released_at: "2026-06-26T21:18:00Z"
+  released_at: "2026-06-27T09:30:00Z"
 
 ## Current Milestone
 
@@ -24,7 +24,7 @@ Epic e04 (Client Auth + Full Navigation Flows): ✅ all 6 stories done. Next: Ep
 
 ## Handoff
 
-last_step_completed: "e03 fully released"
+last_step_completed: "e04 fully released"
 open_decisions:
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
   - "Graceful degradation policy — middleware and auth-client use deferred/guard pattern; db.ts throws on first query (acceptable)"
@@ -58,11 +58,11 @@ worktree: ../navigation-auth-state
 last_epic: e04
 last_story: "0.3.5"
 last_story_title: "E2E tests"
-release_result: merged (b8c2646)
+release_result: merged (672ea3e)
 
 ## Pending Releases
 
 - [x] Epic 0.2: 5/5 stories done (login, signup, middleware, E2E)
 - [x] Epic 0.3: 5/5 stories done (dashboard, film detail, API, session validation, E2E)
-- [ ] Epic 0.4: 6 stories pending
+- [x] Epic 0.4: 6/6 stories done (client auth, navigation flows, error pages, reviews API, E2E)
 - [ ] Epic 0.5: 4 stories pending
