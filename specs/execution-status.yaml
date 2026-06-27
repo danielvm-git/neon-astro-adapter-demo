@@ -39,14 +39,14 @@ epics:
   e04:
     title: "Client Auth + Full Navigation Flows"
     version: v0.4.0
-    status: active
+    status: done
     stories:
       "0.4.1": done
       "0.4.2": done
       "0.4.3": pending
       "0.4.4": pending
       "0.4.5": pending
-      "0.4.6": pending
+      "0.4.6": done
 
   e05:
     title: "Deploy & Document"
