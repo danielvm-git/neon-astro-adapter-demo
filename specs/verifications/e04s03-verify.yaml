@@ -1,0 +1,19 @@
+story_id: "0.4.3"
+verified_at: "2026-06-26T21:47:00Z"
+verifier: verify-work
+phases:
+  build:
+    passed: true
+  typecheck:
+    passed: true
+  tests:
+    passed: true
+    vitest: "21 passed"
+    playwright: "13 passed (1 new nav test)"
+  verify_commands:
+    - command: "grep -q 'getSession' src/layouts/Layout.astro src/components/NavClient.astro"
+      passed: true
+    - command: "npx playwright test e2e/nav.spec.ts"
+      passed: true
+  gaps:
+    closed: true
