@@ -37,12 +37,12 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: null
+  current_step: 2
   fast_mode: true
   audit_result: null
-  story_bcps: null
+  story_bcps: 1
   active_story: "0.5.3"
-  completed_steps: []
+  completed_steps: [0, 1]
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"

@@ -72,16 +72,28 @@ stories:
     type: feat
     context: infra
     severity: MEDIUM
+    bcps: 1
     status: pending
     depends_on:
       - "0.5.1"
-    steps:
-      - "Add a [[headers]] block to netlify.toml for path = '/*' with: X-Frame-Options = 'DENY', X-Content-Type-Options = 'nosniff', Referrer-Policy = 'strict-origin-when-cross-origin', X-XSS-Protection = '0'"
-      - "Write E2E or curl-based smoke test asserting the headers are present on the home page response"
+    tasks:
+      - id: "0.5.3-t1"
+        phase: RED
+        description: "Write src/__tests__/infra/security-headers.test.ts — reads netlify.toml, asserts [[headers]] block exists with X-Frame-Options=DENY, X-Content-Type-Options=nosniff, Referrer-Policy=strict-origin-when-cross-origin, X-XSS-Protection=0 for path '/*'. Test fails because headers block not yet present"
+        verify: "npx vitest run src/__tests__/infra/security-headers.test.ts 2>&1 | grep -q 'FAIL'"
+      - id: "0.5.3-t2"
+        phase: GREEN
+        description: "Add [[headers]] block to netlify.toml with all four security headers for path = '/*'"
+        verify: "npx vitest run src/__tests__/infra/security-headers.test.ts 2>&1 | grep -q 'PASS'"
+      - id: "0.5.3-t3"
+        phase: VERIFY
+        description: "Run full test suite and typecheck; confirm all headers present"
+        verify: "grep -q 'X-Frame-Options' netlify.toml && grep -q 'X-Content-Type-Options' netlify.toml && grep -q 'Referrer-Policy' netlify.toml && grep -q 'X-XSS-Protection' netlify.toml && npx vitest run && npx astro check"
     verify:
       - "grep -q 'X-Frame-Options' netlify.toml"
       - "grep -q 'X-Content-Type-Options' netlify.toml"
       - "grep -q 'Referrer-Policy' netlify.toml"
+      - "grep -q 'X-XSS-Protection' netlify.toml"
 
 risks:
   - "Story 0.5.2: health.test.ts must be updated in the same commit — partial update would leave tests red"
