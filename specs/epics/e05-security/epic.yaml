@@ -1,0 +1,77 @@
+# Epic: Security Hardening
+# Source: specs/security/SECURITY-REVIEW-2026-06-28.md
+
+id: e05
+title: "Security Hardening"
+version: v0.5.0
+wsjf: 12.5
+# WSJF: BV=8, TC=8, RR=9 / JobSize=2
+
+stories:
+  - id: "0.5.1"
+    title: "Fix XSS in ProfileClient — replace innerHTML with DOM API"
+    type: fix
+    context: security
+    severity: HIGH
+    status: pending
+    bcps: 2
+    source: "specs/security/SECURITY-REVIEW-2026-06-28.md"
+    depends_on:
+      - "0.4.x"
+    tasks:
+      - id: "0.5.1-t1"
+        phase: RED
+        description: "Install happy-dom devDependency; write src/__tests__/components/profile-renderer.test.ts with @vitest-environment happy-dom importing renderProfileContent from src/lib/profile-renderer — test fails (module not found)"
+        verify: "npx vitest run src/__tests__/components/profile-renderer.test.ts 2>&1 | grep -q 'FAIL\\|Cannot find\\|not found'"
+      - id: "0.5.1-t2"
+        phase: GREEN
+        description: "Create src/lib/profile-renderer.ts exporting renderProfileContent(container, email) using createElement + textContent; update ProfileClient.astro to import and call renderProfileContent instead of innerHTML block"
+        verify: "npx vitest run src/__tests__/components/profile-renderer.test.ts 2>&1 | grep -q 'PASS'"
+      - id: "0.5.1-t3"
+        phase: VERIFY
+        description: "Run full test suite and typecheck; assert no innerHTML in ProfileClient"
+        verify: "grep -qv 'innerHTML' src/components/ProfileClient.astro && npx vitest run && npx astro check"
+    steps:
+      - "In src/components/ProfileClient.astro, replace the innerHTML template literal block (lines 35-38) with safe DOM construction: createElement + textContent"
+      - "Write/update Vitest unit test asserting that a crafted email with HTML entities is not parsed as markup"
+      - "Run npx vitest run and npx astro check — must pass"
+    verify:
+      - "grep -qv 'innerHTML' src/components/ProfileClient.astro"
+      - "npx vitest run"
+      - "npx astro check"
+
+  - id: "0.5.2"
+    title: "Restrict /api/health information disclosure"
+    type: fix
+    context: security
+    severity: MEDIUM
+    status: pending
+    depends_on:
+      - "0.5.1"
+    steps:
+      - "Update src/pages/api/health.ts: always return HTTP 200 with body {status: 'ok'} — remove db/auth detail from the public response"
+      - "Update src/__tests__/pages/api/health.test.ts to assert the new response shape"
+      - "Run npx vitest run -- must pass"
+    verify:
+      - "grep -qv '\"db\"\\|\"auth\"' src/pages/api/health.ts || grep -q 'status.*ok' src/pages/api/health.ts"
+      - "npx vitest run src/__tests__/pages/api/health.test.ts"
+
+  - id: "0.5.3"
+    title: "Add security response headers via netlify.toml"
+    type: feat
+    context: infra
+    severity: MEDIUM
+    status: pending
+    depends_on:
+      - "0.5.1"
+    steps:
+      - "Add a [[headers]] block to netlify.toml for path = '/*' with: X-Frame-Options = 'DENY', X-Content-Type-Options = 'nosniff', Referrer-Policy = 'strict-origin-when-cross-origin', X-XSS-Protection = '0'"
+      - "Write E2E or curl-based smoke test asserting the headers are present on the home page response"
+    verify:
+      - "grep -q 'X-Frame-Options' netlify.toml"
+      - "grep -q 'X-Content-Type-Options' netlify.toml"
+      - "grep -q 'Referrer-Policy' netlify.toml"
+
+risks:
+  - "Story 0.5.2: health.test.ts must be updated in the same commit — partial update would leave tests red"
+  - "Story 0.5.3: security headers only apply in production Netlify; local dev will not send them"
