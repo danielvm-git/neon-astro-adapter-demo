@@ -1,0 +1,29 @@
+story_id: e05s02
+verified_at: "2026-06-28T16:19:00Z"
+verifier: verify-work
+phases:
+  smoke:
+    passed: true
+    detail: "curl /api/health → 200 {status:'ok'}, no db/auth fields"
+  build:
+    passed: true
+    command: "npx astro build"
+  typecheck:
+    passed: true
+  tests:
+    passed: true
+    count: 25
+    files: 10
+  manual:
+    steps:
+      - step: "curl /api/health"
+        expected: "HTTP 200 with {status: 'ok'} only"
+        actual: "HTTP 200 with {status: 'ok'} only"
+        passed: true
+      - step: "Verify no getHealthStatus import in health.ts"
+        expected: "No import of getHealthStatus or health-check module"
+        actual: "No import — confirmed via grep"
+        passed: true
+  gaps:
+    closed: true
+    notes: "Pre-existing preflight issue: auth-client test env isolation fails when NEON_AUTH_BASE_URL set externally (not caused by this change)"
