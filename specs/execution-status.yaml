@@ -54,7 +54,7 @@ epics:
     status: in_progress
     stories:
       "0.5.1": done
-      "0.5.2": pending
+      "0.5.2": done
       "0.5.3": pending
 
   e06:
