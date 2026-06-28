@@ -30,12 +30,18 @@ epics:
     file: specs/epics/e04-client-auth/epic.yaml
 
   - id: e05
-    title: "Deploy & Document"
+    title: "Security Hardening"
     version: v0.5.0
-    wsjf: 6
-    file: specs/epics/e05-deploy/epic.yaml
+    wsjf: 12.5
+    file: specs/epics/e05-security/epic.yaml
 
   - id: e06
+    title: "Deploy & Document"
+    version: v0.6.0
+    wsjf: 6
+    file: specs/epics/e06-deploy/epic.yaml
+
+  - id: e07
     title: "MVP Release"
     version: v1.0.0
     wsjf: 5
