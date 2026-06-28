@@ -1,16 +1,20 @@
 import { describe, it, expect } from "vitest";
-import { getHealthStatus } from "../../../health-check";
+import { GET } from "../../../pages/api/health";
 
 describe("GET /api/health", () => {
-  it("returns 503 status when DB is unavailable", async () => {
-    const health = await getHealthStatus(undefined, "");
-    const status = health.db === "connected" ? 200 : 503;
-    expect(status).toBe(503);
-  });
+  it("returns 200 with {status: 'ok'} and no db/auth details", async () => {
+    const response = await GET({
+      request: new Request("http://localhost/api/health"),
+      params: {},
+      locals: {},
+      url: new URL("http://localhost/api/health"),
+    } as any);
 
-  it("returns JSON with db and auth fields", async () => {
-    const health = await getHealthStatus(undefined, "");
-    expect(health).toHaveProperty("db");
-    expect(health).toHaveProperty("auth");
+    expect(response.status).toBe(200);
+
+    const body = await response.json();
+    expect(body).toEqual({ status: "ok" });
+    expect(body).not.toHaveProperty("db");
+    expect(body).not.toHaveProperty("auth");
   });
 });
