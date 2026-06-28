@@ -1,0 +1,45 @@
+story_id: e05s01
+verified_at: "2026-06-28T15:50:00Z"
+verifier: verify-work
+branch: fix-xss-profile-client
+
+phases:
+  smoke:
+    passed: true
+    notes: "Dev server starts cleanly with .env symlinked from main repo"
+  build:
+    passed: true
+    command: "npx astro build"
+    notes: "Server built in 764ms, 0 warnings"
+  typecheck:
+    passed: true
+    command: "npx astro check"
+    notes: "33 files checked, 0 errors, 0 warnings, 0 hints"
+  tests:
+    passed: true
+    command: "npx vitest run"
+    notes: "10 test files, 26 tests passed (5 new in profile-renderer.test.ts)"
+  security_scan:
+    passed: true
+    notes: "Diff removes all innerHTML; no new sinks introduced. HIGH finding from SECURITY-REVIEW-2026-06-28 resolved."
+  e2e:
+    passed: true
+    command: "npx playwright test --project=local"
+    notes: "17/17 passed, no regressions. Vite serve-allow-list errors are dev-toolbar noise, not failures."
+  manual:
+    steps:
+      - step: "grep -qv 'innerHTML' src/components/ProfileClient.astro"
+        expected: "No innerHTML in ProfileClient"
+        actual: "PASS — all three innerHTML paths removed"
+        passed: true
+      - step: "XSS payload test: renderProfileContent(container, '<img src=x onerror=alert(1)>@evil.com')"
+        expected: "No <img> element in DOM; literal string as textContent"
+        actual: "PASS — container.querySelector('img') is null; textContent contains raw payload string"
+        passed: true
+      - step: "Profile page E2E: unauthenticated state"
+        expected: "Page renders without crash; no sign-out button shown"
+        actual: "PASS — 2/2 profile E2E tests passed"
+        passed: true
+  gaps:
+    closed: true
+    notes: "0 gaps. All story verify commands pass. HIGH XSS finding from security review resolved."
