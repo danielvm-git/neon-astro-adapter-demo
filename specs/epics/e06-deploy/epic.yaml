@@ -1,18 +1,18 @@
 # Epic: Deploy & Document
 # Migrated from custom specs/RELEASE-PLAN.md on 2026-06-26
 
-id: e05
+id: e06
 title: "Deploy & Document"
-version: v0.5.0
+version: v0.6.0
 
 stories:
-  - id: "0.5.1"
+  - id: "0.6.1"
     title: "Netlify deployment configuration"
     type: feat
     context: infra
     status: pending
     depends_on:
-      - "0.4.x"
+      - "0.5.x"
     steps:
       - "Write production-ready netlify.toml (build command, functions dir, redirects)"
       - "Deploy to Netlify"
@@ -22,13 +22,13 @@ stories:
       - "curl -s https://[site].netlify.app/ returns 200"
       - "Home page shows 'connected' status"
 
-  - id: "0.5.2"
+  - id: "0.6.2"
     title: "Live URL smoke test"
     type: feat
     context: infra
     status: pending
     depends_on:
-      - "0.5.1"
+      - "0.6.1"
     steps:
       - "Write playwright.config.ts with live URL project"
       - "Run E2E against live URL"
@@ -36,13 +36,13 @@ stories:
       - "grep -q 'netlify.app\\|baseURL' playwright.config.ts"
       - "npx playwright test --project=live passes"
 
-  - id: "0.5.3"
+  - id: "0.6.3"
     title: "README — developer adoption guide"
     type: docs
     context: infra
     status: pending
     depends_on:
-      - "0.5.1"
+      - "0.6.1"
     steps:
       - "Write README.md with all sections: logo, description, demo link, features, prerequisites, getting started, project structure, deployment, built with, license"
       - "Check all links are valid"
@@ -50,13 +50,13 @@ stories:
       - "wc -l README.md > 30"
       - "All links return 200"
 
-  - id: "0.5.4"
+  - id: "0.6.4"
     title: "Final README links"
     type: docs
     context: infra
     status: pending
     depends_on:
-      - "0.5.3"
+      - "0.6.3"
     steps:
       - "Add 'Built with' section linking @danielvm/neon-astro-auth GitHub repo"
       - "Add live demo URL badge"

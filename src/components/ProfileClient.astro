@@ -16,39 +16,40 @@ const { authUrl } = Astro.props;
 
 <script>
   import { createAuthClient } from "@danielvm/neon-astro-auth";
+  import { renderProfileContent } from "../lib/profile-renderer";
+
+  function setNotLoggedIn(container: HTMLElement): void {
+    const p = document.createElement("p");
+    p.textContent = "Not logged in";
+    container.replaceChildren(p);
+  }
 
   (async () => {
     try {
       const authUrl: string = (window as unknown as Record<string, string>).__NEON_AUTH_URL__;
+      const container = document.getElementById("profile-content");
       if (!authUrl) {
-        const container = document.getElementById("profile-content");
-        if (container) container.innerHTML = `<p>Not logged in</p>`;
+        if (container) setNotLoggedIn(container);
         return;
       }
       const client = createAuthClient(authUrl);
       const result: { data: { user?: { email?: string } } | null } =
         (await client.getSession()) as unknown as { data: { user?: { email?: string } } | null };
-      const container = document.getElementById("profile-content");
 
       if (container) {
         if (result.data?.user?.email) {
-          container.innerHTML = `
-            <p>Logged in as <strong>${result.data.user.email}</strong></p>
-            <button id="sign-out-btn">Sign out</button>
-          `;
+          renderProfileContent(container, result.data.user.email);
           document.getElementById("sign-out-btn")?.addEventListener("click", async () => {
             await client.signOut();
             window.location.href = "/";
           });
         } else {
-          container.innerHTML = `<p>Not logged in</p>`;
+          setNotLoggedIn(container);
         }
       }
     } catch {
       const container = document.getElementById("profile-content");
-      if (container) {
-        container.innerHTML = `<p>Not logged in</p>`;
-      }
+      if (container) setNotLoggedIn(container);
     }
   })();
 </script>
