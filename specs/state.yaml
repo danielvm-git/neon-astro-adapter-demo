@@ -14,22 +14,23 @@ release:
 
 ## Current Milestone
 
-Epic e04 (Client Auth + Full Navigation Flows): ✅ all 6 stories done. Next: Epic e05 (Deploy & Document).
+Epic e05 (Security Hardening): ✅ all 3 stories done. Next: Epic e06 (Deploy & Document).
 
 ## Completed Releases
 
 - v0.1.0 — Epic 0.1 (Scaffold & Neon Connection): 7/7 stories done
 - v0.2.0 — Epic 0.2 (Auth UI): 5/5 stories done
 - v0.3.0 — Epic 0.3 (Protected SSR + Neon DB Film Catalog): 5/5 stories done
+- v0.5.0 — Epic 0.5 (Security Hardening): 3/3 stories done
 
 ## Handoff
 
-last_step_completed: "e05 story 0.5.2 released — health endpoint now returns static {status:'ok'}"
+last_step_completed: "e05 fully released — all 3 stories done (XSS fix, health endpoint hardening, security headers)"
 open_decisions:
   - "Reviews table schema — needs definition before Epic 0.4 Story 0.4.5"
   - "Graceful degradation policy — middleware and auth-client use deferred/guard pattern; db.ts throws on first query (acceptable)"
 next_skill: survey-context
-handoff_context: "Story 0.5.3 next: Add security response headers via netlify.toml"
+handoff_context: "Epic e05 complete. Next: e06 Deploy & Document (4 stories pending)"
 
 ## Current Flow
 
@@ -37,24 +38,22 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: 7
+  current_step: null
   fast_mode: true
-  audit_result: pass
-  story_bcps: 1
-  active_story: "0.5.3"
-  completed_steps: [0, 1, 2, 3, 4, 5, 6]
-  worktree: ../security-headers
-  branch: security-headers
+  audit_result: null
+  story_bcps: null
+  active_story: null
+  completed_steps: []
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
-active_epic: e05
-active_story: "0.5.3"
+active_epic: e06
+active_story: "0.6.1"
 last_epic: e05
-last_story: "0.5.2"
-last_story_title: "Restrict /api/health information disclosure"
+last_story: "0.5.3"
+last_story_title: "Add security response headers via netlify.toml"
 release_result: merged (cf26b68)
 
 ## Pending Releases
@@ -62,4 +61,5 @@ release_result: merged (cf26b68)
 - [x] Epic 0.2: 5/5 stories done (login, signup, middleware, E2E)
 - [x] Epic 0.3: 5/5 stories done (dashboard, film detail, API, session validation, E2E)
 - [x] Epic 0.4: 6/6 stories done (client auth, navigation flows, error pages, reviews API, E2E)
-- [ ] Epic 0.5: 4 stories pending
+- [x] Epic 0.5: 3/3 stories done (XSS fix, health hardening, security headers)
+- [ ] Epic 0.6: 4 stories pending

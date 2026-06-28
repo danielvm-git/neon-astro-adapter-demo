@@ -51,11 +51,11 @@ epics:
   e05:
     title: "Security Hardening"
     version: v0.5.0
-    status: in_progress
+    status: done
     stories:
       "0.5.1": done
       "0.5.2": done
-      "0.5.3": pending
+      "0.5.3": done
 
   e06:
     title: "Deploy & Document"
