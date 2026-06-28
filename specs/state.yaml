@@ -36,23 +36,23 @@ active_flow: build_epic
 easy_mode: true
 
 epic_cycle:
-  current_step: 3
+  current_step: null
   fast_mode: true
-  audit_result: null
-  story_bcps: 2
-  active_story: "0.5.1"
-  completed_steps: [0, 1, 2]
+  audit_result: pass
+  story_bcps: null
+  active_story: null
+  completed_steps: []
 
 last_bug: BUG-001
 last_bug_title: "auth-client.ts crashes at module load when NEON_AUTH_BASE_URL unset"
 bug_cycle: {}
 
 active_epic: e05
-active_story: "0.5.1"
-last_epic: e04
-last_story: "0.4.6"
-last_story_title: "Full user journey E2E"
-release_result: merged (161d5fa)
+active_story: "0.5.2"
+last_epic: e05
+last_story: "0.5.1"
+last_story_title: "Fix XSS in ProfileClient — replace innerHTML with DOM API"
+release_result: merged (cf26b68)
 
 ## Pending Releases
 
