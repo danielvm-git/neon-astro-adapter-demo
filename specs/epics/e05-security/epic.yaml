@@ -45,16 +45,27 @@ stories:
     type: fix
     context: security
     severity: MEDIUM
+    bcps: 1
     status: pending
     depends_on:
       - "0.5.1"
-    steps:
-      - "Update src/pages/api/health.ts: always return HTTP 200 with body {status: 'ok'} — remove db/auth detail from the public response"
-      - "Update src/__tests__/pages/api/health.test.ts to assert the new response shape"
-      - "Run npx vitest run -- must pass"
+    tasks:
+      - id: "0.5.2-t1"
+        phase: RED
+        description: "Rewrite src/__tests__/pages/api/health.test.ts — import GET from the health route handler, call it with a stubbed context, assert Response.status === 200 and body is {status: 'ok'}. Test fails because handler still returns db/auth detail and variable status code"
+        verify: "npx vitest run src/__tests__/pages/api/health.test.ts 2>&1 | grep -q 'FAIL'"
+      - id: "0.5.2-t2"
+        phase: GREEN
+        description: "Rewrite src/pages/api/health.ts to always return HTTP 200 with JSON {status: 'ok'} — drop getHealthStatus import entirely"
+        verify: "npx vitest run src/__tests__/pages/api/health.test.ts 2>&1 | grep -q 'PASS'"
+      - id: "0.5.2-t3"
+        phase: VERIFY
+        description: "Run full test suite, typecheck, and confirm no db/auth fields leak in health endpoint"
+        verify: "grep -qv 'getHealthStatus' src/pages/api/health.ts && npx vitest run && npx astro check"
     verify:
-      - "grep -qv '\"db\"\\|\"auth\"' src/pages/api/health.ts || grep -q 'status.*ok' src/pages/api/health.ts"
-      - "npx vitest run src/__tests__/pages/api/health.test.ts"
+      - "grep -qv 'getHealthStatus' src/pages/api/health.ts"
+      - "npx vitest run"
+      - "npx astro check"
 
   - id: "0.5.3"
     title: "Add security response headers via netlify.toml"
