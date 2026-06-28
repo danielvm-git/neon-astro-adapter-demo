@@ -53,7 +53,7 @@ epics:
     version: v0.5.0
     status: in_progress
     stories:
-      "0.5.1": pending
+      "0.5.1": done
       "0.5.2": pending
       "0.5.3": pending
 
