@@ -7,3 +7,8 @@ dist/
 .DS_Store
 playwright-report/
 test-results/
+
+# Local tooling config (bts, direnv, rtk)
+.bts.toml
+.envrc
+.rtk/
