@@ -1,4 +1,4 @@
-# Neon Auth Astro Demo — OpenCode
+# Neon Auth Astro Demo — AI Agents
 
 Read CONVENTIONS.md before any GitHub or git operation.
 
@@ -45,6 +45,7 @@ Standard Astro SSR site. Middleware (`src/middleware.ts`) proxies auth via `@dan
 - Never refactor, rename, or reorganize code outside the task scope.
 - Run tests after every change. Show evidence before declaring done.
 - One clarifying question beats a wrong assumption baked into 200 lines.
+
 
 ## bts toolchain
 
